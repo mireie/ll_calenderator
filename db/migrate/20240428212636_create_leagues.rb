@@ -4,7 +4,7 @@ class CreateLeagues < ActiveRecord::Migration[7.0]
       t.string :title
       t.string :sport
       t.string :description
-      t.string :days
+      t.string :days, array: true, default: []
       t.datetime :start_date
 
       t.timestamps

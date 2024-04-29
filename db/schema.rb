@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_28_225847) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_29_004537) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "games", force: :cascade do |t|
     t.datetime "start_time"
     t.integer "home_team_score"
@@ -18,10 +21,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_225847) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "field"
-    t.integer "league_id", null: false
-    t.integer "location_id"
-    t.integer "home_team_id", null: false
-    t.integer "away_team_id", null: false
+    t.bigint "league_id", null: false
+    t.bigint "location_id"
+    t.bigint "home_team_id", null: false
+    t.bigint "away_team_id", null: false
+    t.string "external_id"
     t.index ["away_team_id"], name: "index_games_on_away_team_id"
     t.index ["home_team_id"], name: "index_games_on_home_team_id"
     t.index ["league_id"], name: "index_games_on_league_id"
@@ -32,11 +36,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_225847) do
     t.string "title"
     t.string "sport"
     t.string "description"
-    t.string "days"
+    t.string "days", default: [], array: true
     t.datetime "start_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "organization_id", null: false
+    t.bigint "organization_id", null: false
+    t.string "external_id"
     t.index ["organization_id"], name: "index_leagues_on_organization_id"
   end
 
@@ -58,13 +63,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_225847) do
     t.string "leagues_path"
     t.string "teams_path"
     t.string "schedule_path"
+    t.string "external_id"
   end
 
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "league_id", null: false
+    t.bigint "league_id", null: false
+    t.string "external_id"
     t.index ["league_id"], name: "index_teams_on_league_id"
   end
 
