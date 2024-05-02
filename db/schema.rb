@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_29_004537) do
     t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_id"
   end
 
   create_table "organizations", force: :cascade do |t|

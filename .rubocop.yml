@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'db/**/*'
+    - 'Gemfile'
     
 Style/StringLiterals:
   EnforcedStyle: double_quotes
