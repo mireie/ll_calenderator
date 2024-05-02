@@ -3,8 +3,24 @@
 # The Organization model is responsible for the top-level organization that is responsible for the
 # leagues, teams, and games
 class Organization < ApplicationRecord
-  has_many :leagues
+  has_many :leagues, dependent: :destroy
   has_many :teams, through: :leagues
   has_many :games, through: :leagues
   has_many :locations
+
+  def self.create_and_populate_organization_from_url(base_url)
+    organization = Organization.find_or_create_by(base_url:)
+    if organization.new_record?
+      organization.name = base_url
+      organization.leagues_path = "/league"
+      organization.teams_path = "/team"
+      organization.save
+    end
+
+    OrganizationDataService.new(organization).fetch_and_process_external_league_data
+    organization.leagues.each do |league|
+      LeagueDataService.new(league).fetch_and_process_external_team_data
+      ScheduleDataService.new(league).fetch_and_process_external_schedule_data
+    end
+  end
 end

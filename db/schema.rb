@@ -64,14 +64,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_29_004537) do
     t.string "leagues_path"
     t.string "teams_path"
     t.string "schedule_path"
-    t.string "external_id"
   end
 
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "league_id", null: false
+    t.bigint "league_id"
     t.string "external_id"
     t.index ["league_id"], name: "index_teams_on_league_id"
   end

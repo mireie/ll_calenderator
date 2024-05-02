@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class ScheduleDataService
-  def initialize(schedule_url)
-    @schedule_url = schedule_url
-    @league_id = schedule_url.split("/")[-2]
+  def initialize(league)
+    @league = league
   end
 
   def fetch_and_process_external_schedule_data
@@ -12,8 +11,14 @@ class ScheduleDataService
 
   private
 
+  def schedule_url
+    base_url = @league.organization.base_url
+    league_id = @league.external_id
+    "#{base_url}/league/#{league_id}/schedule"
+  end
+
   def fetch_schedule
-    doc = ExternalDataService.fetch_and_parse_external_data(@schedule_url)
+    doc = ExternalDataService.fetch_and_parse_external_data(schedule_url)
     doc.css("div#leagueSchedule div.gameDate table.scheduleTable")
   end
 
@@ -24,7 +29,7 @@ class ScheduleDataService
 
   def field_data_for_game_date(game_fields)
     game_fields.map.with_index do |field, index|
-      next if field.text.strip == ""
+      next unless field.text.strip!
 
       {
         col: index,
@@ -81,9 +86,10 @@ class ScheduleDataService
 
   def create_or_update_game(game_data)
     game = Game.find_or_initialize_by(external_id: game_data[:external_id])
-    game.location_id = Location.find_or_create_by(external_id: game_data[:field][:location_id]).id
-    game.league_id = League.find_by(external_id: @league_id).id
-    game.field = game_data[:field][:number]
+    # TODO: - add support for location
+    # game.location_id = Location.find_or_create_by(external_id: game_data[:field][:location_id]).id
+    game.league = @league
+    game.field = game_data[:field]&.[](:number)
     game.start_time = game_data[:datetime]
     game.home_team_id = Team.find_or_create_by(external_id: game_data[:team_one_id]).id
     game.away_team_id = Team.find_or_create_by(external_id: game_data[:team_two_id]).id
