@@ -11,6 +11,7 @@ class Team < ApplicationRecord
   def games_to_ical
     cal = Icalendar::Calendar.new
     # TODO: Add timezone support
+    cal.timezone { |t| t.tzid = "America/Los_Angeles" }
     games.each { |game| cal.add_event(game.to_ical) }
     cal.to_ical
   end
