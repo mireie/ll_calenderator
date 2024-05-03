@@ -1,0 +1,22 @@
+<h1>Public Files</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Team ID</th>
+      <th>Team Name</th>
+      <th>League Name</th>
+      <th>File</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @files.each do |file| %>
+      <tr>
+        <td><%= file[:team_id] %></td>
+        <td><%= file[:team_name] %></td>
+        <td><%= file[:league_name] %></td>
+        <td><%= link_to File.basename(file[:path]), "/#{file[:path].gsub('public/', '')}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
