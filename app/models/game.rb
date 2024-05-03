@@ -5,6 +5,8 @@ class Game < ApplicationRecord
   has_one :organization, through: :league
   has_one :location
 
+  require "icalendar/tzinfo"
+
   class << self
     def fetch_and_proccess_games
       # Fetch games from external API
@@ -16,9 +18,10 @@ class Game < ApplicationRecord
   def to_ical
     # Convert game to ical format
     # https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/
+    tzid = "America/Los_Angeles"
     event = Icalendar::Event.new
-    event.dtstart = start_time
-    event.dtend = start_time + 1.hour
+    event.dtstart = Icalendar::Values::DateTime.new start_time, "tzid" => tzid
+    event.dtend = Icalendar::Values::DateTime.new(start_time + 1.hour, "tzid" => tzid)
     event.summary = "#{home_team.name} vs #{away_team.name} at #{field}"
 
     event

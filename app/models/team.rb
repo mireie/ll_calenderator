@@ -4,6 +4,8 @@ class Team < ApplicationRecord
   has_many :home_games, class_name: "Game", foreign_key: "home_team_id"
   has_many :away_games, class_name: "Game", foreign_key: "away_team_id"
 
+  require "icalendar/tzinfo"
+
   def games
     Game.where("home_team_id = ? OR away_team_id = ?", id, id)
   end
@@ -11,7 +13,10 @@ class Team < ApplicationRecord
   def games_to_ical
     cal = Icalendar::Calendar.new
     # TODO: Add timezone support
-    cal.timezone { |t| t.tzid = "America/Los_Angeles" }
+    tzid = "America/Los_Angeles"
+    tz = TZInfo::Timezone.get(tzid)
+    timezone = tz.ical_timezone(Time.now)
+    cal.add_timezone(timezone)
     games.each { |game| cal.add_event(game.to_ical) }
     cal.to_ical
   end
