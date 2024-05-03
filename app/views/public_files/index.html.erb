@@ -23,7 +23,7 @@
         <td><%= file[:team_id] %></td>
         <td><%= file[:team_name] %></td>
         <td><%= file[:league_name] %></td>
-        <td><%= link_to File.basename(file[:path]), "/#{file[:path].gsub('public/', '')}" %></td>
+        <td><%= link_to File.basename(file[:path]), "webcal://#{request.host_with_port}/#{file[:path].gsub('public/', '')}" %></td>
       </tr>
     <% end %>
   </tbody>
