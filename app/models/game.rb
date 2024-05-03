@@ -18,10 +18,10 @@ class Game < ApplicationRecord
   def to_ical
     # Convert game to ical format
     # https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/
-    tzid = "America/Los_Angeles"
+    tzid = "UTC"
     event = Icalendar::Event.new
-    event.dtstart = Icalendar::Values::DateTime.new start_time, "tzid" => tzid
-    event.dtend = Icalendar::Values::DateTime.new(start_time + 1.hour, "tzid" => tzid)
+    event.dtstart = Icalendar::Values::DateTime.new(start_time.utc, "tzid" => tzid)
+    event.dtend = Icalendar::Values::DateTime.new(start_time.utc + 1.hour, "tzid" => tzid)
     event.summary = "#{home_team.name} vs #{away_team.name} at #{field}"
 
     event

@@ -13,7 +13,7 @@ class Team < ApplicationRecord
   def games_to_ical
     cal = Icalendar::Calendar.new
     # TODO: Add timezone support
-    tzid = "America/Los_Angeles"
+    tzid = "UTC"
     tz = TZInfo::Timezone.get(tzid)
     timezone = tz.ical_timezone(Time.now)
     cal.add_timezone(timezone)
