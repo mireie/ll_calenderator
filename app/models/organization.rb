@@ -23,4 +23,18 @@ class Organization < ApplicationRecord
       ScheduleDataService.new(league).fetch_and_process_external_schedule_data
     end
   end
+
+  # TODO: Extract this
+  def publish_calendars
+    FileUtils.mkdir_p("public/organizations/#{id}")
+
+    League.includes(:teams, :games).where(organization_id: id).each do |league|
+      league.teams.each do |team|
+        FileUtils.mkdir_p("public/organizations/#{id}/#{league.external_id}")
+        File.open("public/organizations/#{id}/#{league.external_id}/#{team.external_id}.ics", "w") do |f|
+          f.write(team.games_to_ical)
+        end
+      end
+    end
+  end
 end
