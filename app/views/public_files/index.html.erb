@@ -1,4 +1,12 @@
-<h1>Public Files</h1>
+<h1>Games</h1>
+
+<%= form_with url: public_files_path, method: :get do %>
+  <div>
+    <%= label_tag :team_name, 'Team Name' %>
+    <%= text_field_tag :team_name, params[:team_name] %>
+  </div>
+  <%= submit_tag 'Filter' %>
+<% end %>
 
 <table>
   <thead>
