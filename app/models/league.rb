@@ -3,9 +3,26 @@ class League < ApplicationRecord
   has_many :teams, dependent: :nullify
   has_many :games, dependent: :destroy
 
-  def self.fetch_and_process_leagues
-    # Fetch leagues from external website
+  require "icalendar/tzinfo"
 
-    # Process leagues
+  def publish_calendar
+    FileUtils.mkdir_p("public/organizations/#{organization_id}/#{external_id}")
+
+    File.open("public/organizations/#{organization_id}/#{external_id}/games.ics", "w") do |f|
+      f.write(games_to_ical)
+    end
+  end
+
+  private
+
+  def games_to_ical
+    cal = Icalendar::Calendar.new
+    # TODO: Add timezone support
+    tzid = "UTC"
+    tz = TZInfo::Timezone.get(tzid)
+    timezone = tz.ical_timezone(Time.now)
+    cal.add_timezone(timezone)
+    games.each { |game| cal.add_event(game.to_ical) }
+    cal.to_ical
   end
 end
