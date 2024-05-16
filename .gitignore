@@ -36,3 +36,5 @@
 
 # Ignore generated public calendar files
 /public/organizations*
+/app/assets/builds/*
+!/app/assets/builds/.keep
