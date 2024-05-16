@@ -57,6 +57,8 @@ class ScheduleDataService
       next if game.css("div")&.text&.strip&.empty?
 
       game_attributes = build_game_data(game.attributes)
+      next if game_attributes[:team_one_id].empty? || game_attributes[:team_two_id].empty?
+
       game_attributes[:field] = game_field_for_game_from_id(game_attributes[:external_id], game_fields)
       create_or_update_game(game_attributes)
     end
