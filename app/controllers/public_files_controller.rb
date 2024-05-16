@@ -18,14 +18,18 @@ class PublicFilesController < ApplicationController
       team_id = file.split("/")[-1].split(".")[0]
       league_id = file.split("/")[-2]
       if team_id == "games"
+        next unless League.find_by(external_id: league_id)
+
         files << {
           team_id: nil,
           team_name: "All Games",
-          league_name: League.find(league_id).title,
+          league_name: League.find_by(external_id: league_id).title,
           path: file
         }
       else
         team = Team.find_by(external_id: team_id)
+        next unless team
+
         files << {
           team_id:,
           team_name: team.name,
