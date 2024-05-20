@@ -30,4 +30,58 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  games:
+    create:
+      success: "Game was successfully created."
+    update:
+      success: "Game was successfully updated."
+    destroy: 
+      success: "Game was successfully destroyed."
+  users:
+    create:
+      success: "User was successfully created."
+    update:
+      success: "User was successfully updated."
+    destroy: 
+      success: "User was successfully destroyed."
+  sessions:
+    create:
+      success: "Session was successfully created."
+    destroy: 
+      success: "Session was successfully destroyed."
+  locations:
+    create:
+      success: "Location was successfully created."
+    update:
+      success: "Location was successfully updated."
+    destroy: 
+      success: "Location was successfully destroyed."
+  organizations:
+    create:
+      success: "Organization was successfully created."
+    update:
+      success: "Organization was successfully updated."
+    destroy: 
+      success: "Organization was successfully destroyed."
+  leagues:
+    create:
+      success: "League was successfully created."
+    update:
+      success: "League was successfully updated."
+    destroy: 
+      success: "League was successfully destroyed."
+  teams:
+    create: 
+      success: "Team was successfully created."
+    update:
+      success: "Team was successfully updated."
+    destroy: 
+      success: "Team was successfully destroyed."
+  errors:
+    not_found: "Not found"
+    unauthorized: "Unauthorized"
+    forbidden: "Forbidden"
+    unprocessable_entity: "Unprocessable Entity"
+    internal_server_error: "Internal Server Error"
+  
+  

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class GamesControllerTest < ActionDispatch::IntegrationTest
@@ -17,7 +19,7 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create game" do
     assert_difference("Game.count") do
-      post games_url, params: { game: {  } }
+      post games_url, params: { game: {} }
     end
 
     assert_redirected_to game_url(Game.last)
@@ -34,7 +36,7 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update game" do
-    patch game_url(@game), params: { game: {  } }
+    patch game_url(@game), params: { game: {} }
     assert_redirected_to game_url(@game)
   end
 

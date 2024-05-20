@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class LeaguesControllerTest < ActionDispatch::IntegrationTest
@@ -17,7 +19,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create league" do
     assert_difference("League.count") do
-      post leagues_url, params: { league: {  } }
+      post leagues_url, params: { league: {} }
     end
 
     assert_redirected_to league_url(League.last)
@@ -34,7 +36,7 @@ class LeaguesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update league" do
-    patch league_url(@league), params: { league: {  } }
+    patch league_url(@league), params: { league: {} }
     assert_redirected_to league_url(@league)
   end
 

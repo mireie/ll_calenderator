@@ -4,15 +4,19 @@ AllCops:
     - 'Gemfile'
     - 'vendor/*'
     - '**/.asdf/*'
+    - 'config/initializers/devise.rb'
+    - 'bin/*'
+  NewCops: enable
     
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Style/TrailingCommaInHashLiteral:
-  EnforcedStyle: consistent_comma
-
-Style/MethodLength:
-  Enabled: false
+  EnforcedStyleForMultiline: consistent_comma
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
+
+require:
+  - rubocop-rails
+  - rubocop-capybara

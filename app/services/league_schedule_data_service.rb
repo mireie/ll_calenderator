@@ -36,7 +36,7 @@ class LeagueScheduleDataService
         col: index,
         name: field_name(field),
         number: field_number(field),
-        location_id: field_location_id(field)
+        location_id: field_location_id(field),
       }
     end.compact
   end
@@ -70,7 +70,7 @@ class LeagueScheduleDataService
       external_id: game_attributes["id"].value,
       team_one_id: game_attributes["data-teamoneid"].value,
       team_two_id: game_attributes["data-teamtwoid"].value,
-      datetime: game_datetime_from_id(game_attributes["id"].value)
+      datetime: game_datetime_from_id(game_attributes["id"].value),
     }
   end
 
@@ -80,7 +80,7 @@ class LeagueScheduleDataService
     time = id_parts[2].gsub("-", ":")
     # TODO: - add support for timezones
     time_zone = Time.now.zone
-    Time.parse("#{date} #{time} #{time_zone}")
+    Time.zone.parse("#{date} #{time} #{time_zone}")
   end
 
   def game_field_for_game_from_id(game_id, game_fields)

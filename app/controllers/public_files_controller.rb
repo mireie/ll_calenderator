@@ -33,12 +33,12 @@ class PublicFilesController < ApplicationController
       team_id: team&.external_id,
       team_name: team&.name,
       league_name: league&.title,
-      path: file
+      path: file,
     }
   end
 
   def filter_files
-    return unless public_file_params[:team_name].present?
+    return if public_file_params[:team_name].blank?
 
     @files = @files.select do |file|
       file[:team_name]&.downcase&.include?(public_file_params[:team_name].downcase)

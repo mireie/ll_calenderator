@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class LocationsControllerTest < ActionDispatch::IntegrationTest
@@ -17,7 +19,7 @@ class LocationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create location" do
     assert_difference("Location.count") do
-      post locations_url, params: { location: {  } }
+      post locations_url, params: { location: {} }
     end
 
     assert_redirected_to location_url(Location.last)
@@ -34,7 +36,7 @@ class LocationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update location" do
-    patch location_url(@location), params: { location: {  } }
+    patch location_url(@location), params: { location: {} }
     assert_redirected_to location_url(@location)
   end
 

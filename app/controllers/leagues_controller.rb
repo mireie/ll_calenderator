@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# This is the controller for the League model.
 class LeaguesController < ApplicationController
-  before_action :set_league, only: %i[ show edit update destroy ]
+  before_action :set_league, only: %i[show edit update destroy]
 
   # GET /leagues or /leagues.json
   def index
@@ -7,8 +10,7 @@ class LeaguesController < ApplicationController
   end
 
   # GET /leagues/1 or /leagues/1.json
-  def show
-  end
+  def show; end
 
   # GET /leagues/new
   def new
@@ -16,8 +18,7 @@ class LeaguesController < ApplicationController
   end
 
   # GET /leagues/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /leagues or /leagues.json
   def create
@@ -25,7 +26,7 @@ class LeaguesController < ApplicationController
 
     respond_to do |format|
       if @league.save
-        format.html { redirect_to league_url(@league), notice: "League was successfully created." }
+        format.html { redirect_to league_url(@league), notice: t(".success") }
         format.json { render :show, status: :created, location: @league }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +39,7 @@ class LeaguesController < ApplicationController
   def update
     respond_to do |format|
       if @league.update(league_params)
-        format.html { redirect_to league_url(@league), notice: "League was successfully updated." }
+        format.html { redirect_to league_url(@league), notice: t(".success") }
         format.json { render :show, status: :ok, location: @league }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +53,20 @@ class LeaguesController < ApplicationController
     @league.destroy
 
     respond_to do |format|
-      format.html { redirect_to leagues_url, notice: "League was successfully destroyed." }
+      format.html { redirect_to leagues_url, notice: t(".success") }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_league
-      @league = League.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def league_params
-      params.fetch(:league, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_league
+    @league = League.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def league_params
+    params.fetch(:league, {})
+  end
 end

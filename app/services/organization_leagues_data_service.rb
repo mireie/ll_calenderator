@@ -20,7 +20,7 @@ class OrganizationLeaguesDataService
       description: league.css("p.league-description").first.text.strip,
       days: league_attributes["data-days"].split(","),
       external_id: league_attributes["data-leagueid"],
-      start_date: Date.parse(league.css("li.days").text.split(":").last.strip)
+      start_date: Date.parse(league.css("li.days").text.split(":").last.strip),
     }
   end
 

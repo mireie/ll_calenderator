@@ -40,7 +40,7 @@ class LeagueTeamsDataService
     {
       league: @league,
       name: team_data.css("td.teamName a").first.text.strip,
-      external_id: external_team_id(team_data)
+      external_id: external_team_id(team_data),
     }
   end
 end
