@@ -28,8 +28,8 @@ class Organization < ApplicationRecord
   def publish_calendars
     FileUtils.mkdir_p("public/organizations/#{id}")
 
-    League.includes(:teams, :games).where(organization_id: id).each do |league|
-      league.teams.each do |team|
+    League.includes(:teams, :games).where(organization_id: id).find_each do |league|
+      league.teams.find_each do |team|
         FileUtils.mkdir_p("public/organizations/#{id}/#{league.external_id}")
         File.open("public/organizations/#{id}/#{league.external_id}/#{team.external_id}.ics", "w") do |f|
           f.write(team.games_to_ical)

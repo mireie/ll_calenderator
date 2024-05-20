@@ -10,6 +10,6 @@ export default class extends Controller {
 
     this.timeout = setTimeout(() => {
       this.element.submit();
-    }, 300); // 300ms debounce
+    }, 1000);
   }
 }

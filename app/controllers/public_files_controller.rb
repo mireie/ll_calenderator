@@ -4,9 +4,10 @@ class PublicFilesController < ApplicationController
   def index
     @files = get_files
     # fuzzy search
-    return @files unless params[:team_name].present?
 
-    @files = @files.select { |file| file[:team_name].downcase.include?(params[:team_name].downcase) }
+    if params[:team_name].present?
+      @files = @files.select { |file| file[:team_name].downcase.include?(params[:team_name].downcase) }
+    end
 
     respond_to do |format|
       format.turbo_stream do
