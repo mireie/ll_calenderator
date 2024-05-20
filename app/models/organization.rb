@@ -10,6 +10,9 @@ class Organization < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
 
+  scope :active, -> { where(status: :active) }
+  default_scope { active }
+
   def self.create_and_populate_organization_from_url(base_url)
     organization = Organization.find_or_create_by(base_url:)
     if organization.new_record?
