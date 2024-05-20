@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# The OrganizationDataService is responsible for providing data services for the Organization model
-class OrganizationDataService
+# The OrganizationLeaguesDataServices is responsible for creating and updating league data from an organization
+class OrganizationLeaguesDataService
   def initialize(organization)
     @organization = organization
   end

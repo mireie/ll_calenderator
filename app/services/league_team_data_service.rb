@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# The LeagueDataService is responsible for providing data services for the Organization model
-class LeagueDataService
+# The LeagueTeamsDataService is responsible for fetching and processing teams data for a league
+class LeagueTeamsDataService
   def initialize(league)
     @league = league
     @organization = league.organization

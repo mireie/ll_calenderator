@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
+# The PublicFilesController is responsible for handling requests for public files
 class PublicFilesController < ApplicationController
-  def index
-    @files = get_files
-    # fuzzy search
+  skip_before_action :authenticate_user!, only: %i[index]
 
-    if params[:team_name].present?
-      @files = @files.select { |file| file[:team_name].downcase.include?(params[:team_name].downcase) }
-    end
+  def index
+    process_request
 
     respond_to do |format|
       format.turbo_stream do
@@ -19,33 +17,43 @@ class PublicFilesController < ApplicationController
 
   private
 
-  def get_files
-    files = []
+  def process_request
+    @files = ical_files.map { |file| file_attributes(file) }
+    filter_files
+  end
 
-    Dir.glob("public/**/*.ics").each do |file|
-      team_id = file.split("/")[-1].split(".")[0]
-      league_id = file.split("/")[-2]
-      team = Team.find_by(external_id: team_id)
-      if team
-        files << {
-          team_id: team.external_id,
-          team_name: team.name,
-          league_name: team.league.title,
-          path: file
-        }
-        next
-      end
+  def ical_files
+    Dir.glob("public/**/*.ics")
+  end
 
-      next unless team_id == "games"
-      next unless League.find_by(external_id: league_id)
+  def file_attributes(file)
+    team = Team.find_by(external_id: team_id_from_path(file))
+    league = League.find_by(external_id: league_id_from_path(file))
+    {
+      team_id: team&.external_id,
+      team_name: team&.name,
+      league_name: league&.title,
+      path: file
+    }
+  end
 
-      files << {
-        team_id: nil,
-        team_name: "All Games",
-        league_name: League.find_by(external_id: league_id).title,
-        path: file
-      }
+  def filter_files
+    return unless public_file_params[:team_name].present?
+
+    @files = @files.select do |file|
+      file[:team_name]&.downcase&.include?(public_file_params[:team_name].downcase)
     end
-    files
+  end
+
+  def league_id_from_path(path)
+    path.split("/")[-2]
+  end
+
+  def team_id_from_path(path)
+    path.split("/")[-1].split(".")[0]
+  end
+
+  def public_file_params
+    params.permit(:team_name)
   end
 end

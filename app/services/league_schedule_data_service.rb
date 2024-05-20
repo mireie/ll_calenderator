@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class ScheduleDataService
+# The LeagueScheduleDataService is responsible for fetching and processing schedule data for a league
+class LeagueScheduleDataService
   def initialize(league)
     @league = league
   end
@@ -57,7 +58,7 @@ class ScheduleDataService
       next if game.css("div")&.text&.strip&.empty?
 
       game_attributes = build_game_data(game.attributes)
-      next if game_attributes[:team_one_id].empty? || game_attributes[:team_two_id].empty?
+      next if [game_attributes[:team_one_id], game_attributes[:team_two_id]].any(&:empty?)
 
       game_attributes[:field] = game_field_for_game_from_id(game_attributes[:external_id], game_fields)
       create_or_update_game(game_attributes)
@@ -88,14 +89,14 @@ class ScheduleDataService
 
   def create_or_update_game(game_data)
     game = Game.find_or_initialize_by(external_id: game_data[:external_id])
-    # TODO: - add support for location
+    # TODO: Add support for location
     # game.location_id = Location.find_or_create_by(external_id: game_data[:field][:location_id]).id
-    game.league = @league
-    game.field = game_data[:field]&.[](:number)
-    game.start_time = game_data[:datetime]
-    game.home_team_id = Team.find_or_create_by(external_id: game_data[:team_one_id]).id
-    game.away_team_id = Team.find_or_create_by(external_id: game_data[:team_two_id]).id
-
-    game.save!
+    game.update!(
+      league: @league,
+      field: game_data[:field]&.[](:number),
+      start_time: game_data[:datetime],
+      home_team_id: Team.find_or_create_by(external_id: game_data[:team_one_id]).id,
+      away_team_id: Team.find_or_create_by(external_id: game_data[:team_two_id]).id
+    )
   end
 end

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# The League model represents a league in the system
 class League < ApplicationRecord
   belongs_to :organization
   has_many :teams, dependent: :nullify
