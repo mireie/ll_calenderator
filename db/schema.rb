@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_16_213700) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_20_161200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,6 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_213700) do
     t.string "leagues_path"
     t.string "teams_path"
     t.string "schedule_path"
+    t.integer "status", default: 0
   end
 
   create_table "teams", force: :cascade do |t|
