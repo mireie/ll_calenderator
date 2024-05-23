@@ -5,6 +5,9 @@ class PullOrganizationLeaguesDataJob
   include Sidekiq::Worker
 
   def perform(organization_id)
-    Organization.find_by(organization_id).fetch_and_parse_external_league_data
+    organization = Organization.find(organization_id)
+    return if organization.blank?
+
+    OrganizationLeaguesDataService.new(organization).fetch_and_process_external_league_data
   end
 end

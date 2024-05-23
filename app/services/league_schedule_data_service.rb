@@ -58,7 +58,7 @@ class LeagueScheduleDataService
       next if game.css("div")&.text&.strip&.empty?
 
       game_attributes = build_game_data(game.attributes)
-      next if [game_attributes[:team_one_id], game_attributes[:team_two_id]].any(&:empty?)
+      next if [game_attributes[:team_one_id], game_attributes[:team_two_id]].any?(&:empty?)
 
       game_attributes[:field] = game_field_for_game_from_id(game_attributes[:external_id], game_fields)
       create_or_update_game(game_attributes)
@@ -89,14 +89,16 @@ class LeagueScheduleDataService
 
   def create_or_update_game(game_data)
     game = Game.find_or_initialize_by(external_id: game_data[:external_id])
+    home_team = Team.find_or_create_by(external_id: game_data[:team_one_id], league: @league)
+    away_team = Team.find_or_create_by(external_id: game_data[:team_two_id], league: @league)
     # TODO: Add support for location
     # game.location_id = Location.find_or_create_by(external_id: game_data[:field][:location_id]).id
     game.update!(
       league: @league,
       field: game_data[:field]&.[](:number),
       start_time: game_data[:datetime],
-      home_team_id: Team.find_or_create_by(external_id: game_data[:team_one_id]).id,
-      away_team_id: Team.find_or_create_by(external_id: game_data[:team_two_id]).id
+      home_team_id: home_team.id,
+      away_team_id: away_team.id
     )
   end
 end
