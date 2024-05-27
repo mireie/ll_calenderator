@@ -17,6 +17,9 @@ Style/TrailingCommaInHashLiteral:
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
+Style/Documentation:
+  Enabled: false
+
 require:
   - rubocop-rails
   - rubocop-capybara
