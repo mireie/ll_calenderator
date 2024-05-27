@@ -79,3 +79,5 @@ gem "icalendar"
 gem "nokogiri"
 gem "sidekiq"
 gem "pundit"
+
+gem "rails_live_reload", "~> 0.3.6", :group => :development
