@@ -77,6 +77,5 @@ gem "dockerfile-rails", ">= 1.6", :group => :development
 gem "devise"
 gem "icalendar"
 gem "nokogiri"
-gem "tailwindcss-rails"
 gem "sidekiq"
 gem "pundit"
