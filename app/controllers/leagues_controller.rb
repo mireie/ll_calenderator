@@ -58,6 +58,14 @@ class LeaguesController < ApplicationController
     end
   end
 
+  def webcal
+    @league = League.find(params[:id])
+
+    respond_to do |format|
+      format.ics { render plain: @league.games_to_ical }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

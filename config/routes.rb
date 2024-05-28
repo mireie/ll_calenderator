@@ -14,12 +14,13 @@ Rails.application.routes.draw do
   # # config/routes.rb
 
   get "public_files", to: "public_files#index"
+  get "leagues/:id/webcal", to: "leagues#webcal", as: "league_webcal"
 
   # Sidekiq Web UI
   require "sidekiq/web"
 
-  # authenticate :user, ->(user) { user.super? } do
-  mount Sidekiq::Web => "/sidekiq"
-  mount PgHero::Engine, at: "pghero" if defined?(PgHero)
-  # end
+  authenticate :user, ->(user) { user.super? } do
+    mount Sidekiq::Web => "/sidekiq"
+    mount PgHero::Engine, at: "pghero" if defined?(PgHero)
+  end
 end

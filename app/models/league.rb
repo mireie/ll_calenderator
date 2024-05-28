@@ -8,14 +8,6 @@ class League < ApplicationRecord
 
   require "icalendar/tzinfo"
 
-  def publish_calendar
-    FileUtils.mkdir_p("public/organizations/#{organization_id}/#{external_id}")
-
-    File.write("public/organizations/#{organization_id}/#{external_id}/games.ics", games_to_ical)
-  end
-
-  private
-
   def games_to_ical
     cal = Icalendar::Calendar.new
     # TODO: Add timezone support
@@ -25,5 +17,11 @@ class League < ApplicationRecord
     cal.add_timezone(timezone)
     games.each { |game| cal.add_event(game.to_ical) }
     cal.to_ical
+  end
+
+  def publish_calendar
+    FileUtils.mkdir_p("public/organizations/#{organization_id}/#{external_id}")
+
+    File.write("public/organizations/#{organization_id}/#{external_id}/games.ics", games_to_ical)
   end
 end
