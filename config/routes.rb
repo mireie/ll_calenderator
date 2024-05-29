@@ -15,6 +15,10 @@ Rails.application.routes.draw do
 
   get "public_files", to: "public_files#index"
   get "leagues/:id/webcal", to: "leagues#webcal", as: "league_webcal"
+  post "leagues/:id/refresh_games", to: "leagues#refresh_games", as: "league_refresh_games"
+  post "leagues/:id/refresh_teams", to: "leagues#refresh_teams", as: "league_refresh_teams"
+  get "admin", to: "admin#index"
+  post "admin/refresh_all", to: "admin#refresh_all", as: "admin_refresh_all"
 
   # Sidekiq Web UI
   require "sidekiq/web"

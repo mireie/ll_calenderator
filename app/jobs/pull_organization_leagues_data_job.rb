@@ -8,6 +8,6 @@ class PullOrganizationLeaguesDataJob
     organization = Organization.find(organization_id)
     return if organization.blank?
 
-    OrganizationLeaguesDataService.new(organization).fetch_and_process_external_league_data
+    OrganizationLeaguesDataService.new(organization).fetch_and_process_external_team_data
   end
 end
