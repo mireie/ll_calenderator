@@ -9,7 +9,7 @@ class LeaguesController < ApplicationController
   def index
     @leagues = League.all
     @sports = League.distinct.pluck(:sport)
-    @days = League.distinct.pluck(:days).flatten.uniq
+    @days = League.distinct.pluck(:days).compact.map { JSON.parse(_1).map(&:strip) }.flatten.uniq
 
     process_request
     @leagues = @leagues.sort_by(&:start_date)
