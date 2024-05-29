@@ -11,6 +11,9 @@ class League < ApplicationRecord
   # Fly's postgreSQL database does not support array types, so we store the days as a JSON string
   # TODO: Refactor to store as JSON or something
   def days
+    day_string = read_attribute(:days)
+    return [] if day_string.blank?
+
     JSON.parse(read_attribute(:days).to_s)
   end
 
