@@ -16,7 +16,7 @@ class Organization < ApplicationRecord
   class << self
     def create_and_populate_organization_from_url(base_url)
       organization = Organization.find_or_create_by(base_url:)
-      assign_organization_attributes(odrganization, base_url) if organization.new_record?
+      assign_organization_attributes(organization, base_url) if organization.new_record?
 
       organization.leagues.find_each do |league|
         LeagueDataService.new(league).fetch_and_process_external_team_data

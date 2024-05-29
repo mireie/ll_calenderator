@@ -30,7 +30,7 @@
             <tr>
               <td><%= link_to league.title, league_path(league) %></td>
               <td><%= league.sport %></td>
-              <td><%= league.days.join(", ") %></td>
+              <td><%= league.days.to_a.join(", ") %></td>
               <td><%= league.start_date.strftime("%B %d, %Y") %></td>
               <td><%= link_to "Webcal", league_webcal_path(league) %></td>
             </tr>
