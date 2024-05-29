@@ -59,6 +59,7 @@ class TeamsController < ApplicationController
   end
 
   def webcal
+    skip_authorization
     send_data(
       @team.games_to_ical,
       filename: "#{@team.external_id}.ics",
