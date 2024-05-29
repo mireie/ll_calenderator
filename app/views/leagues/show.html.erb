@@ -1,4 +1,4 @@
-  <% if @current_user.super? %>
+  <% if @current_user&.super? %>
   <div class="d-flex">
     <div class="d-row">
       <turbo-frame id="refresh_games">

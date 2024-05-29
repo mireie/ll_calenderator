@@ -3,6 +3,7 @@
 # This is the controller for the Team model.
 class TeamsController < ApplicationController
   before_action :set_team, only: %i[show edit update destroy webcal]
+  skip_before_action :authenticate_user!, only: %i[index show webcal]
 
   # GET /teams or /teams.json
   def index
@@ -59,7 +60,6 @@ class TeamsController < ApplicationController
   end
 
   def webcal
-    skip_authorization
     send_data(
       @team.games_to_ical,
       filename: "#{@team.external_id}.ics",

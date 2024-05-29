@@ -3,6 +3,7 @@
 # This is the controller for the League model.
 class LeaguesController < ApplicationController
   before_action :set_league, only: %i[show edit update destroy webcal refresh_games refresh_teams]
+  skip_before_action :authenticate_user!, only: %i[index show webcal]
 
   # GET /leagues or /leagues.json
   def index
