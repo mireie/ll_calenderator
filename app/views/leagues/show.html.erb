@@ -20,7 +20,7 @@
         <div class="card m-3" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title"><%= team.name %></h5>
-            <%= link_to "Webcal", team_webcal_path(team)%>
+            <%= link_to "Webcal", "webcal://#{request.host_with_port}#{team_webcal_path(team, format: :ics)}" %>
           </div>
         </div>
       <% end %>

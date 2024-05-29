@@ -8,6 +8,12 @@ class League < ApplicationRecord
 
   require "icalendar/tzinfo"
 
+  # Fly's postgreSQL database does not support array types, so we store the days as a JSON string
+  # TODO: Refactor to store as JSON or something
+  def days
+    JSON.parse(read_attribute(:days).to_s)
+  end
+
   def games_to_ical
     cal = Icalendar::Calendar.new
     # TODO: Add timezone support
