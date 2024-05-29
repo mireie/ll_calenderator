@@ -7,8 +7,9 @@ class AdminController < ApplicationController
 
   def refresh_all
     League.find_each do |league|
-      PullLeagueScheduleDataJob.perform_async(league.id)
-      PullLeagueTeamsDataJob.perform_async(league.id)
+      # TODO: Temporary fix until I can figure out why Sidekiq isn't working
+      PullLeagueScheduleDataJob.new.perform(league.id)
+      PullLeagueTeamsDataJob.new.perform(league.id)
     end
 
     redirect_to admin_path, notice: "Refresh jobs queued"

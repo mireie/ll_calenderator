@@ -7,7 +7,10 @@ class OrganizationLeaguesDataService
   end
 
   def fetch_and_process_external_league_data
-    fetch_leagues.each { |league| proccess_league(league) }
+    fetch_leagues.each do |league|
+      proccess_league(league)
+      GC.start # Manually trigger garbage collection after processing each league
+    end
   end
 
   private
