@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post "leagues/:id/refresh_teams", to: "leagues#refresh_teams", as: "league_refresh_teams"
   get "admin", to: "admin#index"
   post "admin/refresh_all", to: "admin#refresh_all", as: "admin_refresh_all"
+  get "teams/:id/webcal", to: "teams#webcal", as: "team_webcal"
 
   # Sidekiq Web UI
   require "sidekiq/web"

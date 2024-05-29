@@ -1,40 +1,18 @@
+  <% if @current_user.super? %>
+  <div class="d-flex">
+    <div class="d-row">
+      <turbo-frame id="refresh_games">
+        <button class="btn btn-danger" data-url="<%= league_refresh_games_path(@league) %>">Refresh Games</button>
+      </turbo-frame>
+      <turbo-frame id="refresh_teams">
+        <button class="btn btn-danger" data-url="<%= league_refresh_teams_path(@league) %>">Refresh Teams</button>
+      </turbo-frame>
+    </div>
+  </div>
+  
+<% end %>
 <p style="color: green"><%= notice %></p>
 <div class="d-flex align-items-center p-3 mx-5 flex-wrap">
-  <% if @current_user.super? %>
-    <turbo-frame id="refresh_games">
-      <button data-url="<%= league_refresh_games_path(@league) %>">Refresh Games</button>
-    </turbo-frame>
-    <turbo-frame id="refresh_teams">
-      <button data-url="<%= league_refresh_teams_path(@league) %>">Refresh Teams</button>
-    </turbo-frame>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('button[data-url]').forEach(function(button) {
-          button.addEventListener('click', function() {
-      var url = this.dataset.url;
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-        },
-        credentials: 'same-origin'
-      }).then(function(response) {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.text();
-      }).then(function(data) {
-        document.querySelector('#' + button.parentElement.id).outerHTML = data;
-      }).catch(function(error) {
-        console.error('There has been a problem with your fetch operation:', error);
-      });
-          });
-        });
-      });
-    </script>
-  <% end %>
   <h1><%= @league.title %></h1>
   <div class="container">
     <div class="d-flex flex-wrap text-center justify-content-evenly">
@@ -42,9 +20,38 @@
         <div class="card m-3" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title"><%= team.name %></h5>
+            <%= link_to "Webcal", team_webcal_path(team)%>
           </div>
         </div>
       <% end %>
     </div>
   </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('button[data-url]').forEach(function(button) {
+        button.addEventListener('click', function() {
+    var url = this.dataset.url;
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      credentials: 'same-origin'
+    }).then(function(response) {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+    }).then(function(data) {
+      document.querySelector('#' + button.parentElement.id).outerHTML = data;
+    }).catch(function(error) {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+        });
+      });
+    });
+  </script>

@@ -2,7 +2,7 @@
 
 # This is the controller for the Team model.
 class TeamsController < ApplicationController
-  before_action :set_team, only: %i[show edit update destroy]
+  before_action :set_team, only: %i[show edit update destroy webcal]
 
   # GET /teams or /teams.json
   def index
@@ -56,6 +56,15 @@ class TeamsController < ApplicationController
       format.html { redirect_to teams_url, notice: t(".success") }
       format.json { head :no_content }
     end
+  end
+
+  def webcal
+    send_data(
+      @team.games_to_ical,
+      filename: "#{@team.external_id}.ics",
+      type: "text/calendar",
+      disposition: "attachment"
+    )
   end
 
   private
