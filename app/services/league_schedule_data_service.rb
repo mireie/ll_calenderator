@@ -78,9 +78,8 @@ class LeagueScheduleDataService
     id_parts = game_id.split("_")
     date = id_parts[1]
     time = id_parts[2].gsub("-", ":")
-    # TODO: - add support for timezones
-    time_zone = Time.now.zone
-    Time.zone.parse("#{date} #{time} #{time_zone}")
+    # TODO: Add support for timezone, currently using the default timezone (Pacific Time)
+    Time.zone.parse("#{date} #{time}")
   end
 
   def game_field_for_game_from_id(game_id, game_fields)
