@@ -13,7 +13,6 @@ Rails.application.routes.draw do
   root "leagues#index"
   # # config/routes.rb
 
-  get "public_files", to: "public_files#index"
   get "leagues/:id/webcal", to: "leagues#webcal", as: "league_webcal"
   post "leagues/:id/refresh_games", to: "leagues#refresh_games", as: "league_refresh_games"
   post "leagues/:id/refresh_teams", to: "leagues#refresh_teams", as: "league_refresh_teams"
