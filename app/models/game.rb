@@ -22,11 +22,32 @@ class Game < ApplicationRecord
     # Convert game to ical format
     # https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/
     tzid = "UTC"
-    event = Icalendar::Event.new
-    event.dtstart = Icalendar::Values::DateTime.new(start_time.utc, "tzid" => tzid)
-    event.dtend = Icalendar::Values::DateTime.new(start_time.utc + 1.hour, "tzid" => tzid)
-    event.summary = "#{home_team.name} vs #{away_team.name} at #{field}"
+    cal = Icalendar::Event.new
+    update_event(cal, tzid)
+  end
 
-    event
+  def event_details(tzid)
+    {
+      uid: "game-#{id}",
+      dtstamp: formatted_time(updated_at, tzid),
+      dtstart: formatted_time(start_time, tzid),
+      dtend: formatted_time(start_time + 1.hour, tzid),
+      summary:,
+    }
+  end
+
+  def formatted_time(time, tzid)
+    Icalendar::Values::DateTime.new(time.utc, "tzid" => tzid)
+  end
+
+  def update_event(cal, tzid)
+    event_details(tzid).each do |key, value|
+      cal.send("#{key}=", value)
+    end
+    cal
+  end
+
+  def summary
+    "#{home_team.name} vs #{away_team.name} at #{field || 'TBD'}"
   end
 end
