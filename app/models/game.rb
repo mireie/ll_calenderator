@@ -48,6 +48,6 @@ class Game < ApplicationRecord
   end
 
   def summary
-    "#{home_team.name} vs #{away_team.name} at #{field || 'TBD'}"
+    "#{home_team.name} vs. #{away_team.name} at #{field || 'TBD'}"
   end
 end
