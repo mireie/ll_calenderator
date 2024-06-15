@@ -35,16 +35,4 @@ class Organization < ApplicationRecord
       organization.save
     end
   end
-
-  # TODO: Extract this
-  def publish_calendars
-    FileUtils.mkdir_p("public/organizations/#{id}")
-
-    League.includes(:teams, :games).where(organization_id: id).find_each do |league|
-      league.teams.find_each do |team|
-        FileUtils.mkdir_p("public/organizations/#{id}/#{league.external_id}")
-        File.write("public/organizations/#{id}/#{league.external_id}/#{team.external_id}.ics", team.games_to_ical)
-      end
-    end
-  end
 end
