@@ -8,6 +8,8 @@ class Game < ApplicationRecord
   has_one :organization, through: :league
   has_one :location, dependent: :nullify
 
+  enum status: { scheduled: 0, in_progress: 1, completed: 2, removed: 3 }
+
   require "icalendar/tzinfo"
 
   class << self
