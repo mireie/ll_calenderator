@@ -4,11 +4,12 @@ require "rails_helper"
 
 describe OrganizationLeaguesSyncJob, type: :job do
   describe "#perform" do
-    it "enqueues OrganizationLeaguesSyncJob for each organization" do
-      create_list(:organization, 3)
-      expect(OrganizationLeaguesSyncJob).to receive(:perform_later).exactly(3).times
+    let(:organization) { create(:organization) }
+    let(:league) { create(:league, organization:) }
 
-      described_class.perform_now
+    it "syncs all leagues for an organization" do
+      expect(LeagueScheduleSyncJob).to receive(:perform_later).with(league.id)
+      OrganizationLeaguesSyncJob.new.perform(organization.id)
     end
   end
 end
