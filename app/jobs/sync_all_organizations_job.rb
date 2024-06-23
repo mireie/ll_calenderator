@@ -4,8 +4,6 @@ class SyncAllOrganizationsJob < ApplicationJob
   queue_as :default
 
   def perform
-    Organization.find_each do |organization|
-      OrganizationLeaguesSyncJob.perform_later(organization)
-    end
+    Organization.find_each { |organization| OrganizationLeaguesSyncJob.perform_later(organization) }
   end
 end

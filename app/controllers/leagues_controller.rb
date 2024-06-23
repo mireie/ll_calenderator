@@ -2,7 +2,7 @@
 
 # This is the controller for the League model.
 class LeaguesController < ApplicationController
-  before_action :set_league, only: %i[show edit update destroy webcal refresh_games refresh_teams]
+  before_action :set_league, only: %i[show edit update destroy webcal refresh_teams]
   skip_before_action :authenticate_user!, only: %i[index show webcal]
 
   # GET /leagues or /leagues.json
@@ -69,22 +69,6 @@ class LeaguesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to leagues_url, notice: t(".success") }
       format.json { head :no_content }
-    end
-  end
-
-  def refresh_games
-    PullLeagueScheduleDataJob.perform_async(@league.id)
-    respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("refresh_games", "") }
-      format.html { redirect_to league_url(@league), notice: "Refreshing games..." }
-    end
-  end
-
-  def refresh_teams
-    PullLeagueTeamsDataJob.perform_async(@league.id)
-    respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("refresh_teams", "") }
-      format.html { redirect_to league_url(@league), notice: "Refreshing teams..." }
     end
   end
 

@@ -3,7 +3,7 @@
 class LeagueScheduleSyncJob < ApplicationJob
   queue_as :default
 
-  def perform(league)
-    league.sync_schedule
+  def perform(league_id)
+    LeagueScheduleSyncService.sync(League.find(league_id))
   end
 end

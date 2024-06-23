@@ -83,5 +83,7 @@ en:
     forbidden: "Forbidden"
     unprocessable_entity: "Unprocessable Entity"
     internal_server_error: "Internal Server Error"
-  
+  notices:
+    refresh_all:
+      success: "Jobs have been scheduled to refresh data for all organizations."
   

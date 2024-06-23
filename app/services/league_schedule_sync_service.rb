@@ -1,13 +1,18 @@
 # frozen_string_literal: true
 
-# The LeagueScheduleDataService is responsible for fetching and processing schedule data for a league
-class LeagueScheduleDataService
+class LeagueScheduleSyncService
   def initialize(league)
     @league = league
   end
 
-  def fetch_and_process_external_schedule_data
+  def sync
     fetch_schedule.each { |game_date| proccess_game_date(game_date) }
+  end
+
+  class << self
+    def sync(league)
+      new(league).sync
+    end
   end
 
   private
