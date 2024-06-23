@@ -8,6 +8,9 @@ class League < ApplicationRecord
 
   require "icalendar/tzinfo"
 
+  def sync_schedule
+  end
+
   # Fly's postgreSQL database does not support array types, so we store the days as a JSON string
   # TODO: Refactor to store as JSON or something
   def days
