@@ -31,4 +31,8 @@ class League < ApplicationRecord
     games.each { |game| cal.add_event(game.to_ical) }
     cal.to_ical
   end
+
+  def url
+    "#{organization.base_url}/league/#{external_id}"
+  end
 end

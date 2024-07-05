@@ -1,43 +1,50 @@
 <p style="color: green"><%= notice %></p>
-<div class="d-flex align-items-center p-3 mx-5 flex-wrap" data-turbo-frame="filter">
-  <h1>Leagues</h1>
+<div class="d-flex align-items-center p-3 mx-5" data-turbo-frame="filter">
   <div class="container">
-    <%= form_with url: leagues_path, method: :get, remote: true, data: { controller: "filter" } do %>
-      <div class="d-flex align-items-center">
-        <%= label_tag :sport, "Sport", class: "me-2" %>
-        <%= select_tag :sport, options_for_select(@sports, params[:sport]), include_blank: true, class: "form-select m-3", data: { action: "change->filter#submit" } %>
-        <%= label_tag :day, "Day", class: "me-2" %>
-        <%= select_tag :day, options_for_select(@days, params[:day]), include_blank: true, class: "form-select m-3", data: { action: "change->filter#submit" } %>
+    <div class="row">
+      <div class="col">
+        <h1>Leagues</h1>
       </div>
-    <% end %>
-  </div>
-  <% if @leagues.blank? %>
-    <p>No leagues found</p>
-  <% else %> 
-    <div class="container">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Sport</th>
-            <th>Days</th>
-            <th>Start Date</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @leagues.each do |league| %>
-            <tr>
-              <td><%= link_to league.title, league_path(league) %></td>
-              <td><%= league.sport %></td>
-              <td><%= league.days.to_a.join(", ") %></td>
-              <td><%= league.start_date.strftime("%B %d, %Y") %></td>
-              <td><%= link_to "Webcal", league_webcal_path(league) %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
     </div>
-  <% end %>
-  
+    <div class="row">
+      <div class="col">
+        <%= form_with url: leagues_path, method: :get, remote: true, data: { controller: "filter" } do %>
+          <div class="d-flex align-items-center">
+            <%= label_tag :sport, "Sport", class: "me-2" %>
+            <%= select_tag :sport, options_for_select(@sports, params[:sport]), include_blank: true, class: "form-select m-3", data: { action: "change->filter#submit" } %>
+            <%= label_tag :day, "Day", class: "me-2" %>
+            <%= select_tag :day, options_for_select(@days, params[:day]), include_blank: true, class: "form-select m-3", data: { action: "change->filter#submit" } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
+<% if @leagues.blank? %>
+  <p>No leagues found</p>
+<% else %>
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Sport</th>
+          <th>Days</th>
+          <th>Start Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @leagues.each do |league| %>
+          <tr>
+            <td><%= link_to league.title, league_path(league) %></td>
+            <td><%= league.sport %></td>
+            <td><%= league.days.to_a.join(", ") %></td>
+            <td><%= league.start_date.strftime("%B %d, %Y") %></td>
+            <td><%= link_to "Webcal", league_webcal_path(league) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
