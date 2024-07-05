@@ -1,16 +1,3 @@
-  <% if @current_user&.super? %>
-  <div class="d-flex">
-    <div class="d-row">
-      <turbo-frame id="refresh_games">
-        <button class="btn btn-danger" data-url="<%= league_refresh_games_path(@league) %>">Refresh Games</button>
-      </turbo-frame>
-      <turbo-frame id="refresh_teams">
-        <button class="btn btn-danger" data-url="<%= league_refresh_teams_path(@league) %>">Refresh Teams</button>
-      </turbo-frame>
-    </div>
-  </div>
-  
-<% end %>
 <p style="color: green"><%= notice %></p>
 <div class="d-flex align-items-center p-3 mx-5 flex-wrap">
   <h1><%= @league.title %></h1>

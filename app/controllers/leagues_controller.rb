@@ -2,17 +2,16 @@
 
 # This is the controller for the League model.
 class LeaguesController < ApplicationController
-  before_action :set_league, only: %i[show edit update destroy webcal refresh_games refresh_teams]
+  before_action :set_league, only: %i[show edit update destroy webcal]
   skip_before_action :authenticate_user!, only: %i[index show webcal]
 
   # GET /leagues or /leagues.json
   def index
-    @leagues = League.all
+    @leagues = League.order(:start_date)
     @sports = League.distinct.pluck(:sport)
-    @days = League.distinct.pluck(:days).compact.map(&:to_s).map { JSON.parse(_1).map(&:strip) }.flatten.uniq
+    @days = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
     process_request
-    @leagues = @leagues.sort_by(&:start_date)
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace("filter", partial: "filter", locals: { leagues: @leagues })
@@ -69,22 +68,6 @@ class LeaguesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to leagues_url, notice: t(".success") }
       format.json { head :no_content }
-    end
-  end
-
-  def refresh_games
-    PullLeagueScheduleDataJob.perform_async(@league.id)
-    respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("refresh_games", "") }
-      format.html { redirect_to league_url(@league), notice: "Refreshing games..." }
-    end
-  end
-
-  def refresh_teams
-    PullLeagueTeamsDataJob.perform_async(@league.id)
-    respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("refresh_teams", "") }
-      format.html { redirect_to league_url(@league), notice: "Refreshing teams..." }
     end
   end
 

@@ -8,6 +8,10 @@ class League < ApplicationRecord
 
   require "icalendar/tzinfo"
 
+  def sync_schedule
+    LeagueScheduleSyncJob.perform_later(id)
+  end
+
   # Fly's postgreSQL database does not support array types, so we store the days as a JSON string
   # TODO: Refactor to store as JSON or something
   def days
@@ -26,5 +30,9 @@ class League < ApplicationRecord
     cal.add_timezone(timezone)
     games.each { |game| cal.add_event(game.to_ical) }
     cal.to_ical
+  end
+
+  def url
+    "#{organization.base_url}/league/#{external_id}"
   end
 end
