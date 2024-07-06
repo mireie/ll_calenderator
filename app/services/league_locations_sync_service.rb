@@ -3,24 +3,30 @@
 class LeagueLocationsSyncService
   def initialize(league)
     @league = league
-    @doc = ExternalDataService.fetch_and_parse_external_data(@league.locations_url)
+    @doc = ExternalDataService.fetch_and_parse_external_data(locations_url)
   end
 
   def sync
     location_details.each do |location_data|
-      location = @league.locations.find_or_initialize_by(id: location_data[:id])
-      if location.persisted? &&
-         location.verified? &&
-         location.name == location_data[:name] &&
-         location.address == location_data[:address]
-        next
-      end
+      location = Location.find_or_initialize_by(external_id: location_data[:id])
+      next if skip_update_location?(location, location_data)
 
-      location.update(name: location_data[:name], address: location_data[:address])
+      location.update!(
+        {
+          name: location_data[:name],
+          address: location_data[:address],
+          external_id: location_data[:id],
+          verified: false,
+        }
+      )
     end
   end
 
   private
+
+  def locations_url
+    @league.organization.base_url + @league.organization.location_path
+  end
 
   def location_details
     @doc.css("div#locationDetails .infoWindow").map do |location_data|
@@ -34,5 +40,12 @@ class LeagueLocationsSyncService
 
   def clean_address(address)
     address.gsub(/[\n\t]/, "").gsub(/\s+/, " ").strip
+  end
+
+  def skip_update_location?(location, location_data)
+    location.persisted? &&
+      location.verified? &&
+      location.name == location_data[:name] &&
+      location.address == location_data[:address]
   end
 end

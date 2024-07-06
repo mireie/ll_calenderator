@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_05_234840) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_06_212613) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_05_234840) do
     t.string "teams_path"
     t.string "schedule_path"
     t.integer "status", default: 0
+    t.string "location_path"
   end
 
   create_table "teams", force: :cascade do |t|

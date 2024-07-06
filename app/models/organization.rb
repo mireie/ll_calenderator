@@ -30,7 +30,8 @@ class Organization < ApplicationRecord
       organization.assign_attributes(
         name: base_url,
         leagues_path: "/league",
-        teams_path: "/team"
+        teams_path: "/team",
+        locations_path: "/location"
       )
       organization.save
     end

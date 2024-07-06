@@ -20,6 +20,10 @@ Layout/MultilineMethodCallIndentation:
 Style/Documentation:
   Enabled: false
 
+# This is handled by Metrics/ABCSize
+Metrics/MethodLength:
+  Enabled: false
+
 require:
   - rubocop-rails
   - rubocop-capybara
