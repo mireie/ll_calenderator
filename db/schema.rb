@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_15_184155) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_05_234840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_184155) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "external_id"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "country"
+    t.boolean "verified", default: false
+    t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude"
   end
 
   create_table "organizations", force: :cascade do |t|
