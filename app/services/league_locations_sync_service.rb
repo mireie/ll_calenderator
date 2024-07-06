@@ -6,6 +6,12 @@ class LeagueLocationsSyncService
     @doc = ExternalDataService.fetch_and_parse_external_data(locations_url)
   end
 
+  class << self
+    def sync(league)
+      new(league).sync
+    end
+  end
+
   def sync
     location_details.each do |location_data|
       location = Location.find_or_initialize_by(external_id: location_data[:id])
@@ -33,7 +39,7 @@ class LeagueLocationsSyncService
       {
         id: location_data.attributes["id"]&.value&.split("_")&.last,
         name: location_data.css("h3").inner_text.strip,
-        address: clean_address(location_data.css("div.address").inner_text),
+        address: clean_address(location_data.css("div.address").inner_text).presence,
       }
     end
   end
