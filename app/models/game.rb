@@ -5,20 +5,12 @@ class Game < ApplicationRecord
   belongs_to :league
   belongs_to :home_team, class_name: "Team"
   belongs_to :away_team, class_name: "Team"
+  belongs_to :location, optional: true
   has_one :organization, through: :league
-  has_one :location, dependent: :nullify
 
   enum status: { scheduled: 0, in_progress: 1, completed: 2, removed: 3 }
 
   require "icalendar/tzinfo"
-
-  class << self
-    def fetch_and_proccess_games
-      # Fetch games from external API
-
-      # Process games
-    end
-  end
 
   def to_ical
     # Convert game to ical format
