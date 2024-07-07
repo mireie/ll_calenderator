@@ -20,12 +20,26 @@ class Game < ApplicationRecord
     update_event(cal, tzid)
   end
 
+  def description
+    return base_description if location&.verified?
+
+    <<~DESC
+      #{base_description}
+
+      *Note: This location has not been verified. Please double check the address before heading to the game.
+    DESC
+  end
+
+  # TODO: This should be extracted to a service object
+  # TODO: Add proper duration
   def event_details(tzid)
     {
       uid: "game-#{id}",
+      description:,
       dtstamp: formatted_time(updated_at, tzid),
       dtstart: formatted_time(start_time, tzid),
       dtend: formatted_time(start_time + 1.hour, tzid),
+      location: location&.address,
       summary:,
     }
   end
@@ -43,5 +57,18 @@ class Game < ApplicationRecord
 
   def summary
     "#{home_team.name} vs. #{away_team.name} at #{field || 'TBD'}"
+  end
+
+  private
+
+  def base_description
+    <<~DESC
+      #{home_team.name} vs. #{away_team.name}
+
+      #{league.title}
+      Field: #{field || 'TBD'} - #{location&.name || 'TBD'}
+      Start Time: #{start_time.strftime('%l:%M %p')}
+      End Time: #{(start_time + 1.hour).strftime('%l:%M %p')}
+    DESC
   end
 end
