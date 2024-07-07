@@ -4,6 +4,6 @@ class SyncAllOrganizationsJob < ApplicationJob
   queue_as :default
 
   def perform
-    Organization.find_each { |organization| OrganizationLeaguesSyncJob.perform_later(organization) }
+    Organization.pluck(:id).each { |organization_id| OrganizationLeaguesSyncJob.perform_later(organization_id) }
   end
 end
