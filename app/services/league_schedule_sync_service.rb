@@ -95,14 +95,13 @@ class LeagueScheduleSyncService
     game = Game.find_or_initialize_by(external_id: game_data[:external_id])
     home_team = Team.find_or_create_by(external_id: game_data[:team_one_id], league: @league)
     away_team = Team.find_or_create_by(external_id: game_data[:team_two_id], league: @league)
-    # TODO: Add support for location
-    # game.location_id = Location.find_or_create_by(external_id: game_data[:field][:location_id]).id
     game.update!(
       league: @league,
       field: game_data[:field]&.[](:number),
       start_time: game_data[:datetime],
       home_team_id: home_team.id,
-      away_team_id: away_team.id
+      away_team_id: away_team.id,
+      location: Location.find_by(external_id: game_data[:field]&.[](:location_id))
     )
   end
 end
