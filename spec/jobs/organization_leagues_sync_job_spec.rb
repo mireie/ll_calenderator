@@ -8,7 +8,7 @@ describe OrganizationLeaguesSyncJob, type: :job do
     let(:league) { create(:league, organization:) }
 
     it "syncs all leagues for an organization" do
-      expect(LeagueScheduleSyncJob).to receive(:perform_later).with(league.id)
+      expect(LeagueScheduleSyncJob).to receive(:perform_async).with(league.id)
       OrganizationLeaguesSyncJob.new.perform(organization.id)
     end
   end

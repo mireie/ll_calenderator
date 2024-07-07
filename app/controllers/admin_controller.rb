@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   def index; end
 
   def refresh_all
-    SyncAllOrganizationsJob.perform_later
+    SyncAllOrganizationsJob.perform_async
     redirect_to admin_path, notice: I18n.t("admin.refresh_all.success")
   end
 

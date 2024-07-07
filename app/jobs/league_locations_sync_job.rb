@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class LeagueLocationsSyncJob < ApplicationJob
-  queue_as :default
+class LeagueLocationsSyncJob
+  include Sidekiq::Worker
 
   def perform(league_id)
     LeagueLocationsSyncService.sync(League.find(league_id))
