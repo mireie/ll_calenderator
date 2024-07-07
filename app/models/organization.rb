@@ -31,7 +31,7 @@ class Organization < ApplicationRecord
         name: base_url,
         leagues_path: "/league",
         teams_path: "/team",
-        locations_path: "/location"
+        location_path: "/location"
       )
       organization.save
     end

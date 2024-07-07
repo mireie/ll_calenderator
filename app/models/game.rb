@@ -3,10 +3,10 @@
 # The Game model represents a game in the system
 class Game < ApplicationRecord
   belongs_to :league
-  belongs_to :home_team, class_name: "Team"
-  belongs_to :away_team, class_name: "Team"
   belongs_to :location, optional: true
   has_one :organization, through: :league
+  has_many :game_teams, dependent: :destroy
+  has_many :teams, through: :game_teams
 
   enum status: { scheduled: 0, in_progress: 1, completed: 2, removed: 3 }
 
