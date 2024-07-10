@@ -12,16 +12,35 @@ module DataServices
       parsed_game_data = @parser.parse(document).flatten.compact
       parsed_game_data.each do |game_data|
         game = Game.find_or_initialize_by(external_id: game_data[:external_id])
-        next if game.persisted?
-
-        game.assign_attributes(game_attributes(game_data))
-        game.location = parse_location(game_data[:location])
-        game.save
-        assign_game_teams(game, game_data[:game_teams]) if game.persisted?
+        if game.persisted?
+          update_game(game, game_data)
+          next
+        end
+        create_game(game, game_data, schedule_url)
       end
     end
 
     private
+
+    def create_game(game, game_data, schedule_url)
+      game.league = league_from_url(schedule_url)
+      game.assign_attributes(game_attributes(game_data))
+      game.location = parse_location(game_data[:field])
+      game.save
+      assign_game_teams(game, game_data[:game_teams]) if game.persisted?
+    end
+
+    def update_game(game, game_data)
+      game.assign_attributes(game_attributes(game_data))
+      game.location = parse_location(game_data[:field])
+      game.save
+      assign_game_teams(game, game_data[:game_teams]) if game.persisted?
+    end
+
+    def league_from_url(url)
+      league_id = url.split("/")[-2]
+      League.find_by(external_id: league_id)
+    end
 
     def assign_game_teams(game, game_teams_data)
       assign_home_team(game, Team.find_by(external_id: game_teams_data[:home_team_id]))
@@ -51,19 +70,19 @@ module DataServices
     def assign_teams_from_content_title(game, content_title)
       return if content_title.blank? || content_title.exclude?(":")
 
-      role = content_title.split(":", 2).first.strip.downcase
+      role = content_title.split(":", 2).first.strip.downcase.split.join("_").to_sym
       team_name = content_title.split(":", 2).last.strip
       team = Team.find_by(name: team_name)
       return if team.blank?
 
-      GameTeam.find_or_create_by(game:, team:, role: role.to_sym)
+      GameTeam.find_or_create_by(game:, team:, role:)
     end
 
     def game_attributes(game_data)
       {
         external_id: game_data[:external_id],
         start_time: game_data[:start_time],
-        field: game_data[:field],
+        field: game_data[:field][:number],
       }
     end
 

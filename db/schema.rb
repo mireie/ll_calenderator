@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_07_222808) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_10_163415) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,19 +26,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_07_222808) do
 
   create_table "games", force: :cascade do |t|
     t.datetime "start_time"
-    t.integer "home_team_score"
-    t.integer "away_team_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "field"
     t.bigint "league_id", null: false
     t.bigint "location_id"
-    t.bigint "home_team_id", null: false
-    t.bigint "away_team_id", null: false
     t.string "external_id"
     t.integer "status", default: 0
-    t.index ["away_team_id"], name: "index_games_on_away_team_id"
-    t.index ["home_team_id"], name: "index_games_on_home_team_id"
     t.index ["league_id"], name: "index_games_on_league_id"
     t.index ["location_id"], name: "index_games_on_location_id"
   end
@@ -115,8 +109,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_07_222808) do
   add_foreign_key "game_teams", "teams"
   add_foreign_key "games", "leagues"
   add_foreign_key "games", "locations"
-  add_foreign_key "games", "teams", column: "away_team_id"
-  add_foreign_key "games", "teams", column: "home_team_id"
   add_foreign_key "leagues", "organizations"
   add_foreign_key "teams", "leagues"
 end

@@ -13,7 +13,7 @@ class LeagueLocationsSyncService
   end
 
   def sync
-    location_details.each do |location_data|
+    Parsers::LocationParser.new.parse(@doc).each do |location_data|
       location = Location.find_or_initialize_by(external_id: location_data[:id])
       next if skip_update_location?(location, location_data)
 
@@ -32,20 +32,6 @@ class LeagueLocationsSyncService
 
   def locations_url
     @league.organization.base_url + @league.organization.location_path
-  end
-
-  def location_details
-    @doc.css("div#locationDetails .infoWindow").map do |location_data|
-      {
-        id: location_data.attributes["id"]&.value&.split("_")&.last,
-        name: location_data.css("h3").inner_text.strip,
-        address: clean_address(location_data.css("div.address").inner_text).presence,
-      }
-    end
-  end
-
-  def clean_address(address)
-    address.gsub(/[\n\t]/, "").gsub(/\s+/, " ").strip
   end
 
   def skip_update_location?(location, location_data)

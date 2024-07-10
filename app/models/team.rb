@@ -8,7 +8,9 @@ class Team < ApplicationRecord
   has_many :games, through: :game_teams
 
   def games
-    Game.where("home_team_id = ? OR away_team_id = ?", id, id)
+    game_teams.includes(:game).map do |game_team|
+      { game: game_team.game, role: game_team.role }
+    end
   end
 
   def games_to_ical

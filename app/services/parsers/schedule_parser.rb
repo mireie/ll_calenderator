@@ -33,7 +33,7 @@ module Parsers
 
     def parse_game_time_row(row, fields)
       row.css("td").map do |game|
-        next if game.css("div")&.text&.strip&.empty?
+        next if game["class"].include?("rowLabel") || game["class"].include?("noGame")
 
         GameParser.new.parse(game, fields)
       end
