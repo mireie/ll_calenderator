@@ -1,0 +1,79 @@
+# frozen_string_literal: true
+
+module DataServices
+  class ScheduleDataService
+    def initialize(fetcher: HtmlFetcher.new, parser: Parsers::ScheduleParser.new)
+      @fetcher = fetcher
+      @parser = parser
+    end
+
+    def parse(schedule_url)
+      document = @fetcher.fetch_html(schedule_url)
+      parsed_game_data = @parser.parse(document).flatten.compact
+      parsed_game_data.each do |game_data|
+        game = Game.find_or_initialize_by(external_id: game_data[:external_id])
+        next if game.persisted?
+
+        game.assign_attributes(game_attributes(game_data))
+        game.location = parse_location(game_data[:location])
+        game.save
+        assign_game_teams(game, game_data[:game_teams]) if game.persisted?
+      end
+    end
+
+    private
+
+    def assign_game_teams(game, game_teams_data)
+      assign_home_team(game, Team.find_by(external_id: game_teams_data[:home_team_id]))
+      assign_away_team(game, Team.find_by(external_id: game_teams_data[:away_team_id]))
+      assign_officials_team(game, Team.find_by(name: game_teams_data[:officials_team_name]))
+      assign_teams_from_content_title(game, game_teams_data[:content_title])
+    end
+
+    def assign_home_team(game, home_team)
+      return if home_team.blank?
+
+      GameTeam.find_or_create_by(game:, team: home_team, role: :home)
+    end
+
+    def assign_away_team(game, away_team)
+      return if away_team.blank?
+
+      GameTeam.find_or_create_by(game:, team: away_team, role: :away)
+    end
+
+    def assign_officials_team(game, officials)
+      return if officials.blank?
+
+      GameTeam.find_or_create_by(game:, team: officials, role: :official)
+    end
+
+    def assign_teams_from_content_title(game, content_title)
+      return if content_title.blank? || content_title.exclude?(":")
+
+      role = content_title.split(":", 2).first.strip.downcase
+      team_name = content_title.split(":", 2).last.strip
+      team = Team.find_by(name: team_name)
+      return if team.blank?
+
+      GameTeam.find_or_create_by(game:, team:, role: role.to_sym)
+    end
+
+    def game_attributes(game_data)
+      {
+        external_id: game_data[:external_id],
+        start_time: game_data[:start_time],
+        field: game_data[:field],
+      }
+    end
+
+    def parse_location(field)
+      return if field.blank?
+
+      location = Location.find_by(external_id: field[:location_id])
+      return location if location
+
+      DataServices::LocationDataService.new.create_from_field(field)
+    end
+  end
+end

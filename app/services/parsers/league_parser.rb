@@ -2,23 +2,31 @@
 
 module Parsers
   class LeagueParser < BaseParser
-    def parse_league_attributes(document)
+    def parse(document)
       @document = document
       {
+        external_id: parse_external_id,
         title: parse_title,
         sport: parse_sport,
         description: parse_description,
         days: parse_days,
         start_date: parse_start_date,
-        end_date: parse_end_date,
-        locations: parse_locations,
       }
+    end
+
+    def parse_locations(document)
+      document.css(".locations a").map do |location|
+        {
+          external_id: location.attributes["href"].value.split("/").last,
+          name: location.text.strip,
+        }
+      end
     end
 
     private
 
-    def league_details
-      @document.css(".league-detail-container")
+    def parse_external_id
+      @document.css(".league-links li a").first.attributes["href"].value.split("/").last
     end
 
     def parse_title
@@ -39,20 +47,6 @@ module Parsers
 
     def parse_start_date
       extract_date(@document.css(".start").text.strip)
-    end
-
-    def parse_end_date
-      dates = @document.css("li").find { |li| li.text.strip.start_with?("Dates:") }.text.split(":").last.strip
-      Date.parse(dates.split(",").last.gsub(".", "/").strip) if dates.present?
-    end
-
-    def parse_locations
-      @document.css(".locations a").map do |location|
-        {
-          external_id: location.attributes["href"].value.split("/").last,
-          name: location.text.strip,
-        }
-      end
     end
 
     ### Helper methods

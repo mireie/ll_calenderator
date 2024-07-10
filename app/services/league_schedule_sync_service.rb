@@ -58,6 +58,7 @@ class LeagueScheduleSyncService
     field.css("a")&.first&.[]("href")&.split("/")&.last
   end
 
+  # TODO: This should be its own service object or multiple service objects
   def proccess_game_time_row(row, game_fields)
     row.css("td").each do |game|
       next if game.css("div")&.text&.strip&.empty?
@@ -66,6 +67,24 @@ class LeagueScheduleSyncService
       next if [game_attributes[:team_one_id], game_attributes[:team_two_id]].any?(&:empty?)
 
       game_attributes[:field] = game_field_for_game_from_id(game_attributes[:external_id], game_fields)
+      game_attributes[:additional_roles] = {}
+      # assign officials if available
+      if game.css("div .officiatedBy").present?
+        officials_team_name = game.css("div .officiatedBy").text.split(":", 2).last.strip
+        officials_team = Team.find_by(name: officials_team_name)
+        game_attributes[:additional_roles][:officials] = officials_team if officials_team.present?
+      end
+      # assign additional roles if available, this is a hacky way to do it and only for OKC right now
+      # This will only work for a format like: "Field Setup: Team 1"
+      if game.css("div .gameContentTitle").present?
+        additional_roles = game.css("div .gameContentTitle").text.split(":", 2)
+        additional_role_team_name = additional_roles.last.strip
+        additional_role_team = Team.find_by(name: additional_role_team_name)
+        if additional_role_team.present?
+          game_attributes[:additional_roles][additional_roles.first.downcase.to_sym] =
+            additional_role_team
+        end
+      end
       create_or_update_game(game_attributes)
     end
   end
@@ -91,6 +110,7 @@ class LeagueScheduleSyncService
     game_fields.find { |field| field[:col] == game_id.split("_")[-1].to_i }
   end
 
+  # TODO: Shouldn't be creating teams here
   def create_or_update_game(game_data)
     game = Game.find_or_initialize_by(external_id: game_data[:external_id])
     home_team = Team.find_or_create_by(external_id: game_data[:team_one_id], league: @league)
@@ -103,5 +123,9 @@ class LeagueScheduleSyncService
       away_team_id: away_team.id,
       location: Location.find_by(external_id: game_data[:field]&.[](:location_id))
     )
+    game.support_team_roles.destroy_all
+    game_data[:additional_roles].each do |role, team|
+      game.support_team_roles.create!(team:, role:)
+    end
   end
 end
