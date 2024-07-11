@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_10_163415) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_11_203637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_10_163415) do
     t.string "schedule_path"
     t.string "standings_path"
     t.string "time_zone"
+    t.integer "duration", default: 60
     t.index ["organization_id"], name: "index_leagues_on_organization_id"
   end
 
