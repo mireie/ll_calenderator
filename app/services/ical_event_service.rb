@@ -6,6 +6,8 @@ class IcalEventService
   end
 
   def create_event_from_game(game)
+    return unless game.game_teams.count.positive?
+
     event_attributes(game).each do |key, value|
       @event.send("#{key}=", value)
     end

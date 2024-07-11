@@ -17,15 +17,15 @@ class Game < ApplicationRecord
   end
 
   def home_team
-    game_teams.find_by(role: :home).team
+    game_teams.find_by(role: :home)&.team
   end
 
   def away_team
-    game_teams.find_by(role: :away).team
+    game_teams.find_by(role: :away)&.team
   end
 
   def officiating_team
-    game_teams.find_by(role: :officiating).team
+    game_teams.find_by(role: :officiating)&.team
   end
 
   def to_ical
