@@ -57,7 +57,7 @@ class IcalEventService
   end
 
   def summary(game, role = nil)
-    role_text = "#{role.capitalize} - " if role.exclude?(:home, :away)
+    role_text = "#{role.capitalize} - " if role&.exclude?(:home, :away)
     summary_text = "#{game.home_team.name} vs. #{game.away_team.name} - #{game.league.title}"
     "#{role_text}#{summary_text}"
   end
