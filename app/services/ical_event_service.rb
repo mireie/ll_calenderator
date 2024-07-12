@@ -68,7 +68,7 @@ class IcalEventService
 
   def additional_roles_description(game_teams)
     game_teams.map do |game_team|
-      "#{game_team.role.capitalize}: #{game_team.team.name}"
+      "#{game_team.role.capitalize.gsub('_', ' ')}: #{game_team.team.name}"
     end.join("\n")
   end
 
