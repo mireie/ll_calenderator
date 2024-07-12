@@ -18,15 +18,35 @@ class IcalEventService
   private
 
   def event_attributes(game, role = nil)
+    start_time = set_start_time(game, role) || game.start_time
+    end_time = set_end_time(game, role) || game.end_time
     {
       uid: "game-#{game.external_id}",
       description: description(game),
       dtstamp: formatted_time(game.updated_at),
-      dtstart: formatted_time(game.start_time),
-      dtend: formatted_time(game.end_time),
+      dtstart: formatted_time(start_time),
+      dtend: formatted_time(end_time),
       location: game.location&.address || "TBD",
       summary: summary(game, role),
     }
+  end
+
+  def set_start_time(game, role)
+    case role&.to_sym
+    when :field_setup
+      game.start_time - 15.minutes
+    when :field_teardown
+      game.end_time
+    end
+  end
+
+  def set_end_time(game, role)
+    case role&.to_sym
+    when :field_setup
+      game.start_time
+    when :field_teardown
+      game.end_time + 15.minutes
+    end
   end
 
   def description(game)
@@ -57,7 +77,7 @@ class IcalEventService
   end
 
   def summary(game, role = nil)
-    role_text = "#{role.capitalize} - " if role && %i[home away].exclude?(role.to_sym)
+    role_text = "#{role.capitalize.gsub('_', ' ')} - " if role && %i[home away].exclude?(role.to_sym)
     summary_text = "#{game.home_team.name} vs. #{game.away_team.name} - #{game.league.title}"
     "#{role_text}#{summary_text}"
   end
