@@ -2,8 +2,8 @@
 
 module Parsers
   class LeagueParser < BaseParser
-    def parse(document)
-      @document = document
+    def parse(html)
+      @doc = parse_html(html)
       {
         external_id: parse_external_id,
         title: parse_title,
@@ -14,8 +14,8 @@ module Parsers
       }
     end
 
-    def parse_locations(document)
-      document.css(".locations a").map do |location|
+    def parse_locations
+      @doc.css(".locations a").map do |location|
         {
           external_id: location.attributes["href"].value.split("/").last,
           name: location.text.strip,
@@ -26,27 +26,27 @@ module Parsers
     private
 
     def parse_external_id
-      @document.css(".league-links li a").first.attributes["href"].value.split("/").last
+      @doc.css(".league-links li a").first.attributes["href"].value.split("/").last
     end
 
     def parse_title
-      @document.css("h1").text
+      @doc.css("h1").text
     end
 
     def parse_sport
-      @document.css(".league-summary .sport").children.last.text.strip
+      @doc.css(".league-summary .sport").children.last.text.strip
     end
 
     def parse_description
-      @document.css(".league-description").text
+      @doc.css(".league-description").text
     end
 
     def parse_days
-      @document.css(".days").text.split(":").last.strip.split(",").map(&:strip)
+      @doc.css(".days").text.split(":").last.strip.split(",").map(&:strip)
     end
 
     def parse_start_date
-      extract_date(@document.css(".start").text.strip)
+      extract_date(@doc.css(".start").text.strip)
     end
 
     ### Helper methods

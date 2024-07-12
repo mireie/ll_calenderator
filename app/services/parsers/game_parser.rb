@@ -16,7 +16,7 @@ module Parsers
       {
         home_team_id: @game_data["data-teamoneid"],
         away_team_id: @game_data["data-teamtwoid"],
-        officials_team_name: parse_officials_team_name,
+        officiating_team_name: parse_officiating_team_name,
         content_title: parse_game_content_title,
       }
     end
@@ -41,7 +41,7 @@ module Parsers
       fields.find { |field| field[:col] == game_id.split("_")[-1].to_i }
     end
 
-    def parse_officials_team_name
+    def parse_officiating_team_name
       return if @game_data.css("div .officiatedBy").blank?
 
       @game_data.css("div .officiatedBy").text.split(":", 2).last.strip

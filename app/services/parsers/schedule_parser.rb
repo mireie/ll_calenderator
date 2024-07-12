@@ -2,10 +2,13 @@
 
 module Parsers
   class ScheduleParser < BaseParser
-    def parse(document)
-      @document = document
-
-      parse_game_dates
+    def parse(html)
+      @doc = parse_html(html)
+      @doc.css("div#leagueSchedule div.gameDate table.scheduleTable").map do |game_date|
+        fields = parse_game_fields(game_date)
+        game_time_rows = game_date.css("tbody tr")
+        game_time_rows.map { |row| parse_game_time_row(row, fields) }
+      end
     end
 
     private
@@ -21,14 +24,6 @@ module Parsers
           location_id: field_location_id(field),
         }
       end.compact
-    end
-
-    def parse_game_dates
-      @document.css("div#leagueSchedule div.gameDate table.scheduleTable").map do |game_date|
-        fields = parse_game_fields(game_date)
-        game_time_rows = game_date.css("tbody tr")
-        game_time_rows.map { |row| parse_game_time_row(row, fields) }
-      end
     end
 
     def parse_game_time_row(row, fields)

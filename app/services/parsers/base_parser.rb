@@ -2,10 +2,12 @@
 
 module Parsers
   class BaseParser
-    require "open-uri"
+    def parse
+      raise NotImplementedError
+    end
 
-    def fetch_page(url)
-      Nokogiri::HTML(URI.parse(url).open)
+    def parse_html(html)
+      Nokogiri::HTML(html)
     end
   end
 end

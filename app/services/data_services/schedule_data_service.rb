@@ -64,7 +64,7 @@ module DataServices
     def assign_officials_team(game, officials)
       return if officials.blank?
 
-      GameTeam.find_or_create_by(game:, team: officials, role: :official)
+      GameTeam.find_or_create_by(game:, team: officials, role: :officiating)
     end
 
     def assign_teams_from_content_title(game, content_title)
@@ -92,7 +92,7 @@ module DataServices
       location = Location.find_by(external_id: field[:location_id])
       return location if location
 
-      DataServices::LocationDataService.new.create_from_field(field)
+      DataServices::LocationDataService.new.create_from_field_data(field)
     end
   end
 end

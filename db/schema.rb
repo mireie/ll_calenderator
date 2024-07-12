@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_11_203637) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_12_154511) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,10 +47,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_11_203637) do
     t.datetime "updated_at", null: false
     t.bigint "organization_id", null: false
     t.string "external_id"
-    t.string "parsing_strategy", default: "DefaultParsingStrategy"
-    t.string "base_url"
-    t.string "schedule_path"
-    t.string "standings_path"
     t.string "time_zone"
     t.integer "duration", default: 60
     t.index ["organization_id"], name: "index_leagues_on_organization_id"
@@ -82,6 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_11_203637) do
     t.string "schedule_path"
     t.integer "status", default: 0
     t.string "location_path"
+    t.string "standings_path", default: "/standings"
   end
 
   create_table "teams", force: :cascade do |t|

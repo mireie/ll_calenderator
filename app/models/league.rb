@@ -35,4 +35,16 @@ class League < ApplicationRecord
   def url
     "#{organization.base_url}/league/#{external_id}"
   end
+
+  def schedule_url
+    url + organization.schedule_path
+  end
+
+  def standings_url
+    url + organization.standings_path
+  end
+
+  def teams_url
+    url + organization.teams_path
+  end
 end
