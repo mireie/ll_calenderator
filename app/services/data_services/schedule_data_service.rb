@@ -20,6 +20,17 @@ module DataServices
       end
     end
 
+    def cleanup_removed_games(schedule_url)
+      league = league_from_url(schedule_url)
+      return if league.blank?
+
+      schedule_game_ids = game_ids_from_schedule(schedule_url)
+
+      league.games.find_each do |game|
+        game.update(status: :removed) unless game.external_id.in?(schedule_game_ids)
+      end
+    end
+
     private
 
     def create_game(game, game_data, schedule_url)
@@ -83,6 +94,7 @@ module DataServices
         external_id: game_data[:external_id],
         start_time: game_data[:start_time],
         field: game_data[:field][:number],
+        status: :scheduled,
       }
     end
 
@@ -93,6 +105,11 @@ module DataServices
       return location if location
 
       DataServices::LocationDataService.new.create_from_field_data(field)
+    end
+
+    def game_ids_from_schedule(schedule_url)
+      document = @fetcher.fetch_html(schedule_url)
+      @parser.parse(document).flatten.compact.pluck(:external_id)
     end
   end
 end
