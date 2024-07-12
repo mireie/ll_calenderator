@@ -10,28 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_07_015437) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_12_154511) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "game_teams", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "team_id", null: false
+    t.integer "role", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_game_teams_on_game_id"
+    t.index ["team_id"], name: "index_game_teams_on_team_id"
+  end
+
   create_table "games", force: :cascade do |t|
     t.datetime "start_time"
-    t.integer "home_team_score"
-    t.integer "away_team_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "field"
     t.bigint "league_id", null: false
     t.bigint "location_id"
-    t.bigint "home_team_id", null: false
-    t.bigint "away_team_id", null: false
     t.string "external_id"
-    t.bigint "officiating_team_id"
-    t.bigint "field_support_team_id"
-    t.string "field_support_text"
     t.integer "status", default: 0
-    t.index ["away_team_id"], name: "index_games_on_away_team_id"
-    t.index ["home_team_id"], name: "index_games_on_home_team_id"
     t.index ["league_id"], name: "index_games_on_league_id"
     t.index ["location_id"], name: "index_games_on_location_id"
   end
@@ -46,10 +47,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_07_015437) do
     t.datetime "updated_at", null: false
     t.bigint "organization_id", null: false
     t.string "external_id"
-    t.string "parsing_strategy", default: "DefaultParsingStrategy"
-    t.string "base_url"
-    t.string "schedule_path"
-    t.string "standings_path"
+    t.string "time_zone"
+    t.integer "duration", default: 60
     t.index ["organization_id"], name: "index_leagues_on_organization_id"
   end
 
@@ -79,6 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_07_015437) do
     t.string "schedule_path"
     t.integer "status", default: 0
     t.string "location_path"
+    t.string "standings_path", default: "/standings"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -103,10 +103,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_07_015437) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "game_teams", "games"
+  add_foreign_key "game_teams", "teams"
   add_foreign_key "games", "leagues"
   add_foreign_key "games", "locations"
-  add_foreign_key "games", "teams", column: "away_team_id"
-  add_foreign_key "games", "teams", column: "home_team_id"
   add_foreign_key "leagues", "organizations"
   add_foreign_key "teams", "leagues"
 end
