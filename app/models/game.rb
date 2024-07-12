@@ -28,7 +28,7 @@ class Game < ApplicationRecord
     game_teams.find_by(role: :officiating)&.team
   end
 
-  def to_ical
-    IcalEventService.new.create_event_from_game(self)
+  def to_ical(role = nil)
+    IcalEventService.new.create_event_from_game(self, role)
   end
 end

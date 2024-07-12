@@ -45,7 +45,7 @@ module DataServices
     def assign_game_teams(game, game_teams_data)
       assign_home_team(game, Team.find_by(external_id: game_teams_data[:home_team_id]))
       assign_away_team(game, Team.find_by(external_id: game_teams_data[:away_team_id]))
-      assign_officials_team(game, Team.find_by(name: game_teams_data[:officials_team_name]))
+      assign_officiating_team(game, Team.find_by(name: game_teams_data[:officiating_team_name]))
       assign_teams_from_content_title(game, game_teams_data[:content_title])
     end
 
@@ -61,10 +61,10 @@ module DataServices
       GameTeam.find_or_create_by(game:, team: away_team, role: :away)
     end
 
-    def assign_officials_team(game, officials)
-      return if officials.blank?
+    def assign_officiating_team(game, officiating_team)
+      return if officiating_team.blank?
 
-      GameTeam.find_or_create_by(game:, team: officials, role: :officiating)
+      GameTeam.find_or_create_by(game:, team: officiating_team, role: :officiating)
     end
 
     def assign_teams_from_content_title(game, content_title)

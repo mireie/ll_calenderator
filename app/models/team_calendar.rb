@@ -11,7 +11,9 @@ class TeamCalendar
 
   def to_ical
     cal = Icalendar::Calendar.new
-    @team.games.each { |game| cal.add_event(game[:game].to_ical) }
+    @team.games.each do |game|
+      cal.add_event(game[:game].to_ical(game[:role]))
+    end
     cal.to_ical
   end
 end

@@ -5,10 +5,10 @@ class IcalEventService
     @event = Icalendar::Event.new
   end
 
-  def create_event_from_game(game)
-    return unless game.game_teams.count.positive?
+  def create_event_from_game(game, role = nil)
+    return unless game.game_roles.count.positive?
 
-    event_attributes(game).each do |key, value|
+    event_attributes(game, role).each do |key, value|
       @event.send("#{key}=", value)
     end
 
@@ -17,7 +17,7 @@ class IcalEventService
 
   private
 
-  def event_attributes(game)
+  def event_attributes(game, role = nil)
     {
       uid: "game-#{game.external_id}",
       description: description(game),
@@ -25,7 +25,7 @@ class IcalEventService
       dtstart: formatted_time(game.start_time),
       dtend: formatted_time(game.end_time),
       location: game.location&.address || "TBD",
-      summary: summary(game),
+      summary: summary(game, role),
     }
   end
 
@@ -56,8 +56,10 @@ class IcalEventService
     Icalendar::Values::DateTime.new(time.utc)
   end
 
-  def summary(game)
-    "#{game.home_team.name} vs. #{game.away_team.name} - #{game.league.title}"
+  def summary(game, role = nil)
+    role_text = "#{role.capitalize} - " if role.exclude?(:home, :away)
+    summary_text = "#{game.home_team.name} vs. #{game.away_team.name} - #{game.league.title}"
+    "#{role_text}#{summary_text}"
   end
 
   def unverified_location_description
