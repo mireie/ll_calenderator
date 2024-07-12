@@ -53,7 +53,7 @@ class IcalEventService
   end
 
   def formatted_time(time)
-    Icalendar::Values::DateTime.new(time.utc)
+    Icalendar::Values::DateTime.new(time)
   end
 
   def summary(game, role = nil)
