@@ -12,6 +12,8 @@ class Game < ApplicationRecord
 
   enum status: { scheduled: 0, in_progress: 1, completed: 2, removed: 3 }
 
+  default_scope { where.not(status: :removed) }
+
   def end_time
     start_time + (league.duration || DEFAULT_DURATION).minutes
   end
