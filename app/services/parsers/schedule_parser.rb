@@ -28,7 +28,7 @@ module Parsers
 
     def parse_game_time_row(row, fields)
       row.css("td").map do |game|
-        next if game["class"].include?("rowLabel") || game["class"].include?("noGame")
+        next unless game["data-teamoneid"].present? && game["data-teamtwoid"].present?
 
         GameParser.new.parse(game, fields)
       end

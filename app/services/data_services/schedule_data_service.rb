@@ -93,7 +93,7 @@ module DataServices
       {
         external_id: game_data[:external_id],
         start_time: game_data[:start_time],
-        field: game_data[:field][:number],
+        field: game_data.dig(:field, :name),
         status: :scheduled,
       }
     end

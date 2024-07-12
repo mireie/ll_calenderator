@@ -18,7 +18,7 @@ module DataServices
       html = @fetcher.fetch_html(organization_url)
       @organization.name = @parser.name(html)
       @organization.save!
-      populate_leagues(html)
+      @organization
     end
 
     def populate_leagues(organization = nil)
@@ -30,14 +30,14 @@ module DataServices
         DataServices::LeagueDataService.new.create_league(@organization.leagues_url)
         return
       end
-      return unless html
 
-      league_docs = @parser.leagues_docs(html)
-      league_docs.each do |doc|
-        league = League.find_or_initialize_by(external_id: doc[:external_id])
+      league_data = @parser.parse_leagues(@fetcher.fetch_html(@organization.leagues_url))
+      league_data.each do |league_attributes|
+        league = League.find_or_initialize_by(external_id: league_attributes[:external_id])
         next if league.persisted?
 
-        league.update(doc)
+        league.organization = @organization
+        league.update!(league_attributes)
         league.save
       end
     end

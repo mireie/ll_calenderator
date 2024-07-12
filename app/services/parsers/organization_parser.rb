@@ -7,7 +7,7 @@ module Parsers
       @doc.css("meta[property='og:title']").first["content"]
     end
 
-    def leagues_docs(html)
+    def parse_leagues(html)
       @doc = parse_html(html)
       league_docs.map do |league|
         build_league_data(league)
