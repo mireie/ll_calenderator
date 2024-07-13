@@ -115,9 +115,10 @@ class LeaguesController < ApplicationController
   end
 
   def active_leagues
-    @leagues = League.joins(:games)
-      .where("games.start_time > ?", Time.zone.now)
-      .or(League.where("start_date > ?", Time.zone.now))
+    # leagues that have games in the future of if the league has no games, the start date is in the future
+    League.joins(:games)
+      .where(games: { start_time: Time.zone.now.. })
+      .or(League.where("games.start_time IS NULL AND leagues.start_date >= ?", Time.zone.now))
       .distinct
   end
 end
