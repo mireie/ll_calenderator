@@ -28,20 +28,20 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Organization</th>
           <th>Sport</th>
           <th>Days</th>
           <th>Start Date</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
         <% @leagues.each do |league| %>
           <tr>
             <td><%= link_to league.title, league_path(league) %></td>
+            <td><%= league.organization.name %></td>
             <td><%= league.sport %></td>
             <td><%= league.days.to_a.join(", ") %></td>
             <td><%= league.start_date.strftime("%B %d, %Y") %></td>
-            <td><%= link_to "Webcal", league_webcal_path(league) %></td>
           </tr>
         <% end %>
       </tbody>

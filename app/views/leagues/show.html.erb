@@ -44,4 +44,34 @@
       });
     });
   });
+
+  // if card-title == "Betty Ford Allstars (BFA)" then make the whole card sparkle
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.card-title').forEach(function(cardTitle) {
+      if (cardTitle.textContent == "Betty Ford Allstars (BFA)") {
+        cardTitle.classList.add('whiteBackground');
+        cardTitle.parentElement.parentElement.classList.add('sparkle');
+      }
+    });
+  });
 </script>
+<style>
+  .whiteBackground {
+    color:black;
+    background-color: white;
+    border-radius: 10px;
+    padding: .5em;
+  }
+  .sparkle {
+    color: white;
+    background-size: 200% 200%;
+    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    animation: gradient 5s ease-in-out infinite;
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; background-size: 200% 200%; }
+    50% { background-position: 100% 50%; background-size: 400% 100%; }
+    100% { background-position: 0% 50%; background-size: 200% 200%}
+  }
+</style>

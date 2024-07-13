@@ -7,6 +7,7 @@ class LeaguesController < ApplicationController
 
   # GET /leagues or /leagues.json
   def index
+    @leagues = active_leagues
     @leagues = League.order(:start_date)
     @sports = League.distinct.pluck(:sport)
     @days = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
@@ -111,5 +112,12 @@ class LeaguesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def league_params
     params.permit(:sport, :day)
+  end
+
+  def active_leagues
+    @leagues = League.joins(:games)
+      .where("games.start_time > ?", Time.zone.now)
+      .or(League.where("start_date > ?", Time.zone.now))
+      .distinct
   end
 end
