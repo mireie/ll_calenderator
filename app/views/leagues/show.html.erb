@@ -1,44 +1,47 @@
 <p style="color: green"><%= notice %></p>
 <div class="d-flex align-items-center p-3 mx-5 flex-wrap">
-  <h1><%= @league.title %></h1>
   <div class="container">
+    <%= link_to '<< Leagues', leagues_path %>
+  </div>
+  <div class="container">
+    <h1><%= @league.title %></h1>
     <div class="d-flex flex-wrap text-center justify-content-evenly">
       <% @league.teams.each do |team| %>
         <div class="card m-3" style="width: 18rem;">
           <div class="card-body">
-            <h5 class="card-title"><%= team.name %></h5>
-            <%= link_to "Webcal", "webcal://#{request.host_with_port}#{team_webcal_path(team, format: :ics)}" %>
+            <h3 class="card-title"><%= team.name %></h3>
+            <%= link_to "Subscribe to Webcal", "webcal://#{request.host_with_port}#{team_webcal_path(team, format: :ics)}", class: "btn btn-primary m-3" %>
+            <%= link_to "Download .ics", team_webcal_path(team, format: :ics), class: "btn btn-secondary m-3" %>
           </div>
         </div>
       <% end %>
     </div>
   </div>
 </div>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('button[data-url]').forEach(function(button) {
-        button.addEventListener('click', function() {
-    var url = this.dataset.url;
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('button[data-url]').forEach(function(button) {
+      button.addEventListener('click', function() {
+  var url = this.dataset.url;
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-      },
-      credentials: 'same-origin'
-    }).then(function(response) {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.text();
-    }).then(function(data) {
-      document.querySelector('#' + button.parentElement.id).outerHTML = data;
-    }).catch(function(error) {
-      console.error('There has been a problem with your fetch operation:', error);
-    });
-        });
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+    },
+    credentials: 'same-origin'
+  }).then(function(response) {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text();
+  }).then(function(data) {
+    document.querySelector('#' + button.parentElement.id).outerHTML = data;
+  }).catch(function(error) {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
       });
     });
-  </script>
+  });
+</script>
