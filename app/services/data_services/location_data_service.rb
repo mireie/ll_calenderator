@@ -9,11 +9,9 @@ module DataServices
 
     def create_from_field_data(field_data)
       location = Location.find_or_initialize_by(external_id: field_data[:external_id])
-      return location if location.persisted?
-
       location_attributes = location_attributes(field_data)
       location.assign_attributes(location_attributes)
-      location.save!
+      location.save if location.changed?
       location
     end
 

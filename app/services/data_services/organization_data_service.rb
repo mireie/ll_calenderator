@@ -37,8 +37,8 @@ module DataServices
         next if league.persisted?
 
         league.organization = @organization
-        league.update!(league_attributes)
-        league.save
+        leage.assign_attributes(league_attributes)
+        league.save if league.changed?
       end
     end
 

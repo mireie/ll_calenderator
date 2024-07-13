@@ -13,11 +13,10 @@ module DataServices
 
       attributes = league_attributes(league_details_url)
       league = League.find_or_initialize_by(external_id: attributes[:external_id])
-      return league if league.persisted?
-
       league.assign_attributes(attributes)
-      league.organization = organization
-      league.save
+      league.organization = organization if league.new_record?
+      league.save if league.changed?
+      league
     end
 
     def league_attributes(league_details_url)
@@ -28,8 +27,12 @@ module DataServices
     private
 
     def find_organization_by_league_url(league_url)
+      league_url = "https://#{league_url}" unless league_url.start_with?("http")
       organizations = Organization.where("base_url LIKE ?", "%#{URI.parse(league_url).host}%")
       organizations.first if organizations.present? && organizations.count == 1
     end
   end
 end
+
+# find last updated game
+Game.order(updated_at: :desc).first

@@ -37,15 +37,16 @@ module DataServices
       game.league = league_from_url(schedule_url)
       game.assign_attributes(game_attributes(game_data))
       game.location = parse_location(game_data[:field])
-      game.save
-      assign_game_teams(game, game_data[:game_teams]) if game.persisted?
+      assign_game_teams(game, game_data[:game_teams]) if game.save!
     end
 
     def update_game(game, game_data)
       game.assign_attributes(game_attributes(game_data))
       game.location = parse_location(game_data[:field])
+      return unless game.changed?
+
       game.save
-      assign_game_teams(game, game_data[:game_teams]) if game.persisted?
+      assign_game_teams(game, game_data[:game_teams])
     end
 
     def league_from_url(url)

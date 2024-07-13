@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get "leagues/:id/webcal", to: "leagues#webcal", as: "league_webcal"
   post "admin/refresh_all", to: "admin#refresh_all", as: "admin_refresh_all"
   get "teams/:id/webcal", to: "teams#webcal", as: "team_webcal"
+  get "jobs/sync_leagues", to: "jobs#sync_leagues", as: "sync_leagues"
 
   # Sidekiq Web UI
   require "sidekiq/web"
