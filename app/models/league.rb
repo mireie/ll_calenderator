@@ -6,6 +6,8 @@ class League < ApplicationRecord
   has_many :teams, dependent: :nullify
   has_many :games, dependent: :destroy
 
+  DEFAULT_TIME_ZONE = "America/Los_Angeles"
+
   require "icalendar/tzinfo"
 
   def sync_schedule
@@ -19,17 +21,6 @@ class League < ApplicationRecord
     return [] if day_string.blank?
 
     JSON.parse(read_attribute(:days).to_s)
-  end
-
-  def games_to_ical
-    cal = Icalendar::Calendar.new
-    # TODO: Add timezone support
-    tzid = "UTC"
-    tz = TZInfo::Timezone.get(tzid)
-    timezone = tz.ical_timezone(Time.zone.now)
-    cal.add_timezone(timezone)
-    games.each { |game| cal.add_event(game.to_ical) }
-    cal.to_ical
   end
 
   def url
