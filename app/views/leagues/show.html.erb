@@ -6,7 +6,7 @@
   <div class="container">
     <h1><%= @league.title %></h1>
     <div class="d-flex flex-wrap text-center justify-content-evenly">
-      <% @league.teams.each do |team| %>
+      <% @league.teams.order(:name).each do |team| %>
         <div class="card m-3" style="width: 18rem;">
           <div class="card-body">
             <h3 class="card-title"><%= team.name %></h3>

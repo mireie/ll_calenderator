@@ -11,7 +11,7 @@ module DataServices
       document = @fetcher.fetch_html(schedule_url)
       parsed_game_data = @parser.parse(document).flatten.compact
       parsed_game_data.each do |game_data|
-        game = Game.find_or_initialize_by(external_id: game_data[:external_id])
+        game = Game.find_or_initialize_by(external_id: game_data[:external_id], league: league_from_url(schedule_url))
         if game.persisted?
           update_game(game, game_data)
           next

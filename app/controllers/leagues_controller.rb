@@ -72,15 +72,6 @@ class LeaguesController < ApplicationController
     end
   end
 
-  def webcal
-    send_data(
-      @league.games_to_ical,
-      filename: "#{@league.external_id}.ics",
-      type: "text/calendar",
-      disposition: "attachment"
-    )
-  end
-
   private
 
   def filter_days
