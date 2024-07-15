@@ -2,8 +2,8 @@
 
 # This is the controller for the League model.
 class LeaguesController < ApplicationController
-  before_action :set_league, only: %i[show edit update destroy webcal]
-  skip_before_action :authenticate_user!, only: %i[index show webcal]
+  before_action :set_league, only: %i[show edit update destroy]
+  skip_before_action :authenticate_user!, only: %i[index show]
 
   # GET /leagues or /leagues.json
   def index
@@ -106,10 +106,9 @@ class LeaguesController < ApplicationController
   end
 
   def active_leagues
-    # leagues that have games in the future of if the league has no games, the start date is in the future
-    League.joins(:games)
-      .where(games: { start_time: Time.zone.now.. })
-      .or(League.where("games.start_time IS NULL AND leagues.start_date >= ?", Time.zone.now))
-      .distinct
+    leagues = League.includes(:games).where(games: { start_time: Time.zone.now.. }).distinct
+    return leagues if leagues.present?
+
+    League.where(start_date: Time.zone.now..).distinct
   end
 end

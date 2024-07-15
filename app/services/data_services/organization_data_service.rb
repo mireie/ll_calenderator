@@ -26,23 +26,38 @@ module DataServices
       return unless @organization
 
       # TODO: Handle this without special case for OKC
-      if @organization.base_url == "oregonkickballclub.leaguelab.com"
-        DataServices::LeagueDataService.new.create_league(@organization.leagues_url)
-        return
-      end
+      handle_okc and return if okc?
 
-      league_data = @parser.parse_leagues(@fetcher.fetch_html(@organization.leagues_url))
-      league_data.each do |league_attributes|
-        league = League.find_or_initialize_by(external_id: league_attributes[:external_id])
-        next if league.persisted?
-
-        league.organization = @organization
-        leage.assign_attributes(league_attributes)
-        league.save if league.changed?
-      end
+      process_leagues
     end
 
     private
+
+    def okc?
+      @organization.base_url == "oregonkickballclub.leaguelab.com"
+    end
+
+    def handle_okc
+      DataServices::LeagueDataService.new.create_league(@organization.leagues_url)
+    end
+
+    def process_leagues
+      league_data = fetch_league_data
+      league_data.each { |league_attributes| create_or_update_league(league_attributes) }
+    end
+
+    def fetch_league_data
+      @parser.parse_leagues(@fetcher.fetch_html(@organization.leagues_url))
+    end
+
+    def create_or_update_league(league_attributes)
+      league = League.find_or_initialize_by(external_id: league_attributes[:external_id])
+      return if league.persisted?
+
+      league.organization = @organization
+      league.assign_attributes(league_attributes)
+      league.save if league.changed?
+    end
 
     def base_url(url)
       URI.parse(url).host

@@ -4,6 +4,11 @@ class JobsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :authenticate
 
+  def sync_games
+    SyncLeagueGamesJob.perform_async
+    render json: { message: "SyncLeagueGamesJob enqueued" }, status: :ok
+  end
+
   def sync_leagues
     SyncLeaguesJob.perform_async
     render json: { message: "SyncLeaguesJob enqueued" }, status: :ok
