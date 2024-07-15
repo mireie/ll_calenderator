@@ -33,8 +33,6 @@ module Parsers
       time = id_parts[2].gsub("-", ":")
       # TODO: Add support for timezone
       Time.zone.parse("#{date} #{time}")
-    rescue StandardError
-      debugger
     end
 
     def parse_field(game_id, fields)

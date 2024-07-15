@@ -21,7 +21,7 @@ class IcalEventService
     start_time = set_start_time(game, role) || game.start_time
     end_time = set_end_time(game, role) || game.end_time
     {
-      uid: "game-#{game.external_id}",
+      uid: "game-#{game.external_id}-#{role}",
       description: description(game),
       dtstamp: formatted_time(game.updated_at),
       dtstart: formatted_time(start_time),
