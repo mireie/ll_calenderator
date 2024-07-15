@@ -9,10 +9,12 @@ class TeamCalendar
 
   def to_ical
     cal = Icalendar::Calendar.new
-    cal.add_timezone(timezone.ical_timezone(Time.zone.now))
+    cal.timezone do |t|
+      t.tzid = timezone
+    end
     @team.games.each do |game|
       event = game[:game].to_ical(game[:role])
-      event = event_timezone(event)
+      event = event_timezone(event) # Adjust event times to UTC
       cal.add_event(event)
     end
     cal.to_ical
@@ -21,13 +23,13 @@ class TeamCalendar
   private
 
   def timezone
-    tzid = @team.league.time_zone || League::DEFAULT_TIME_ZONE
-    TZInfo::Timezone.get(tzid)
+    "UTC"
   end
 
   def event_timezone(event)
-    event.dtstart = Icalendar::Values::DateTime.new(event.dtstart, "tzid" => timezone.canonical_identifier)
-    event.dtend = Icalendar::Values::DateTime.new(event.dtend, "tzid" => timezone.canonical_identifier)
+    # Set event start and end times to UTC
+    event.dtstart = Icalendar::Values::DateTime.new(event.dtstart.to_time.utc, "tzid" => timezone)
+    event.dtend = Icalendar::Values::DateTime.new(event.dtend.to_time.utc, "tzid" => timezone)
     event
   end
 end
