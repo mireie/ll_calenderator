@@ -13,6 +13,8 @@ class TeamCalendar
       t.tzid = timezone
     end
     @team.games.each do |game|
+      next if game[:game].blank? # quick fix for missing games
+
       event = game[:game].to_ical(game[:role])
       event = event_timezone(event) # Adjust event times to UTC
       cal.add_event(event)
