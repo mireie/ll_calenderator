@@ -38,7 +38,7 @@ module Parsers
     def parse_field(game_id, fields)
       return if fields.nil?
 
-      fields.find { |field| field[:col] == game_id.split("_")[-1].to_i }
+      fields.find { |field| field[:location_id] == game_id.split("_")[-2] }
     end
 
     def parse_officiating_team_name
