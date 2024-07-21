@@ -1,17 +1,9 @@
-<%= form_with(model: league) do |form| %>
+<%= simple_form_for league, html: { class: "league form" } do |f| %>
   <% if league.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(league.errors.count, "error") %> prohibited this league from being saved:</h2>
-
-      <ul>
-        <% league.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="error-message">
+      <%= league.errors.full_messages.to_sentence.capitalize %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.submit %>
-  </div>
+  <%= f.input :name, input_html: { autofocus: true } %>
+  <%= f.submit class: "btn btn--secondary" %>
 <% end %>

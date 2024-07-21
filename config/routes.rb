@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   resources :locations
   resources :games
   resources :teams
-  resources :leagues
+  resources :leagues do
+    get "teams", on: :member
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

@@ -59,6 +59,7 @@ group :development, :test do
   gem "vcr"
   gem "factory_bot"
   gem "factory_bot_rails"
+  gem "bullet"
 end
 
 group :development do
@@ -83,3 +84,4 @@ gem "nokogiri"
 gem "sidekiq"
 gem "pundit"
 gem "geocoder"
+gem "simple_form", "~> 5.1.0"

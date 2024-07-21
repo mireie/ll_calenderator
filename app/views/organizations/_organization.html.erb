@@ -1,2 +1,7 @@
-<div id="<%= dom_id organization %>">
-</div>
+<%= turbo_frame_tag organization do %>
+  <div class="organization">
+    <%= link_to organization.name,
+      organization_path(organization),
+      data: { turbo_frame: "_top" } %>
+  </div>
+<% end %>

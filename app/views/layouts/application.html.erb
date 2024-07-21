@@ -6,9 +6,13 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
   <body>
-    <%= yield %>
+    <%= render "layouts/navbar" %>
+    <turbo_frame id="main_content">
+      <%= yield %>
+    </turbo_frame>
+    <%# <%= render "layouts/footer" %>
   </body>
 </html>

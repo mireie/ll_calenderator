@@ -3,7 +3,7 @@
 # This is the controller for the League model.
 class LeaguesController < ApplicationController
   before_action :set_league, only: %i[show edit update destroy]
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show teams]
 
   # GET /leagues or /leagues.json
   def index
@@ -37,27 +37,20 @@ class LeaguesController < ApplicationController
   def create
     @league = League.new(league_params)
 
-    respond_to do |format|
-      if @league.save
-        format.html { redirect_to league_url(@league), notice: t(".success") }
-        format.json { render :show, status: :created, location: @league }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @league.errors, status: :unprocessable_entity }
-      end
+    if @league.save
+      redirect_to leagues_, notice: t(".success")
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /leagues/1 or /leagues/1.json
   def update
-    respond_to do |format|
-      if @league.update(league_params)
-        format.html { redirect_to league_url(@league), notice: t(".success") }
-        format.json { render :show, status: :ok, location: @league }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @league.errors, status: :unprocessable_entity }
-      end
+    if @league.update(league_params)
+      redirect_to leagues_path, notice: "League was successfully updated."
+    else
+      # Add `status: :unprocessable_entity` here
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -69,6 +62,12 @@ class LeaguesController < ApplicationController
       format.html { redirect_to leagues_url, notice: t(".success") }
       format.json { head :no_content }
     end
+  end
+
+  def teams
+    @league = League.find(params[:id])
+    @teams = @league.teams
+    render partial: "leagues/teams", locals: { teams: @teams, league: @league }
   end
 
   private

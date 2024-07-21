@@ -1,10 +1,9 @@
-<h1>Editing league</h1>
-
-<%= render "form", league: @league %>
-
-<br>
-
-<div>
-  <%= link_to "Show this league", @league %> |
-  <%= link_to "Back to leagues", leagues_path %>
-</div>
+<main class="container">
+  <%= link_to sanitize("&larr; Back to league"), league_path(@league) %>
+  <div class="header">
+    <h1>Edit league</h1>
+  </div>
+  <%= turbo_frame_tag @league do %>
+    <%= render "form", league: @league %>
+  <% end %>
+</main>

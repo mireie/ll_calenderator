@@ -75,6 +75,9 @@ GEM
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     builder (3.3.0)
+    bullet (7.2.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     capybara (3.40.0)
       addressable
       matrix
@@ -301,6 +304,9 @@ GEM
       logger
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
+    simple_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
     spring (4.2.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
@@ -322,6 +328,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
+    uniform_notifier (1.16.0)
     vcr (6.2.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -345,7 +352,7 @@ PLATFORMS
   arm-linux
   arm-linux-gnu
   arm-linux-musl
-  arm64-darwin
+  arm64-darwin-23
   x86-linux
   x86-linux-gnu
   x86-linux-musl
@@ -356,6 +363,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bullet
   capybara
   cssbundling-rails
   debug
@@ -381,6 +389,7 @@ DEPENDENCIES
   rubocop-rails
   selenium-webdriver
   sidekiq
+  simple_form (~> 5.1.0)
   spring
   sprockets-rails
   stimulus-rails
