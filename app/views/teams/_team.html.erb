@@ -1,2 +1,11 @@
-<div id="<%= dom_id team %>">
-</div>
+<%= turbo_frame_tag team do %>
+  <div class="team">
+    <div class="team__header">
+      <h2 class="team__title">
+        <%= link_to team.name, team %>
+      </h2>
+      <div class="team__actions">
+      </div>
+    </div>
+  </div>
+<% end %>

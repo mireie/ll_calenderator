@@ -1,6 +1,9 @@
 <main class="container">
-  <%= turbo_frame_tag "leagues" do %>
-    <%= link_to sanitize("&larr; Back to leagues"), leagues_path %>
-    <%= render "league", league: @league %>
+  <%= link_to sanitize("&larr; Back to leagues"), leagues_path %>
+  <div class="header">
+    <h1><%= @league.title %></h1>
+  </div>
+  <%= turbo_frame_tag "teams" do %>
+    <%= render @teams, league: @league %>
   <% end %>
 </main>

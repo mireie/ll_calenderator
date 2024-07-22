@@ -1,8 +1,10 @@
+<%= turbo_stream_from "organizations" %>
 <main class="container">
-  <%= turbo_frame_tag "first_turbo_frame" do %>
-    <div class="header">
-      <h1>Organizations</h1>
-    </div>
+  <div class="header">
+    <h1>Organizations</h1>
+  </div>
+  <% if @organizations.none? %>
+    <%= render "empty_state" %>
   <% end %>
   <%= turbo_frame_tag "organizations" do %>
     <%= render @organizations %>

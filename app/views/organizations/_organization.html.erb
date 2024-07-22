@@ -1,7 +1,7 @@
 <%= turbo_frame_tag organization do %>
-  <div class="organization">
-    <%= link_to organization.name,
-      organization_path(organization),
-      data: { turbo_frame: "_top" } %>
+  <div class="organization card">
+    <%= link_to organization.name, organization, target: "_top", class: "card__title" %>
+    <div class="card__body">
+    </div>
   </div>
 <% end %>

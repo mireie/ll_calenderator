@@ -1,2 +1,7 @@
 <%= turbo_stream.remove @league %>
 <%= render_turbo_stream_flash_messages %>
+<% unless leagues.exists? %>
+  <%= turbo_stream.update League.new do %>
+    <%= render "leagues/empty_state" %>
+  <% end %>
+<% end %>

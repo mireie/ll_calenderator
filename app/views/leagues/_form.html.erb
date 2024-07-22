@@ -1,9 +1,5 @@
 <%= simple_form_for league, html: { class: "league form" } do |f| %>
-  <% if league.errors.any? %>
-    <div class="error-message">
-      <%= league.errors.full_messages.to_sentence.capitalize %>
-    </div>
-  <% end %>
+  <%= form_error_notification(league) %>
   <%= f.input :name, input_html: { autofocus: true } %>
   <%= f.submit class: "btn btn--secondary" %>
 <% end %>

@@ -7,6 +7,8 @@ class Team < ApplicationRecord
   has_many :game_teams, dependent: :destroy
   has_many :games, through: :game_teams
 
+  scope :ordered, -> { order(:name) }
+
   def games
     game_teams.includes(:game).map do |game_team|
       { game: game_team.game, role: game_team.role }

@@ -3,6 +3,9 @@
   <div class="header">
     <h1>Leagues</h1>
   </div>
+  <% if @leagues.none? %>
+    <%= render "empty_state" %>
+  <% end %>
   <%= turbo_frame_tag "leagues" do %>
     <%= render @leagues %>
   <% end %>

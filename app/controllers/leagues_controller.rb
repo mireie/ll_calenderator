@@ -20,7 +20,7 @@ class LeaguesController < ApplicationController
 
   # GET /leagues/1 or /leagues/1.json
   def show
-    @current_user = current_user
+    @teams = @league.teams.ordered
   end
 
   # GET /leagues/new

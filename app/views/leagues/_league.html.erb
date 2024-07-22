@@ -1,13 +1,10 @@
 <%= turbo_frame_tag league do %>
   <div class="league card">
-    <%= link_to league.title, teams_league_path(league), target: "_top", class: "card__title" %>
+    <%= link_to league.title, league, data: { turbo_frame: "_top" } %>
     <div class="card__body">
       <p><%= league.description %></p>
       <p><%= league.days %></p>
       <p><%= league.sport %></p>
     </div>
-    <turbo-frame id="league_<%= league.id %>_teams">
-      <!-- Teams will be loaded here -->
-    </turbo-frame>
   </div>
 <% end %>
