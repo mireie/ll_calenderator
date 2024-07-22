@@ -13,6 +13,7 @@
     </div>
     <div class="card__body">
       <p><strong>Days: </strong><%= league.days.join(", ") %></p>
+      <p><strong>Start Date: </strong><%= league.start_date.strftime("%B %d, %Y") %></p>
       <div class="card_content">
         <p><%= league.description %></p>
       </div>

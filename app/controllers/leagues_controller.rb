@@ -7,9 +7,11 @@ class LeaguesController < ApplicationController
 
   # GET /leagues or /leagues.json
   def index
-    @leagues = active_leagues.order(:start_date)
+    @leagues = active_leagues.order(:start_date).includes(:organization)
     @sports = @leagues.map(&:sport).uniq
-    @leagues_by_sport = @leagues.group_by(&:sport)
+    @leagues_by_sport = @leagues.group_by(&:sport).transform_values do |leagues|
+      leagues.sort_by(&:start_date)
+    end
     @days = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
     process_request
