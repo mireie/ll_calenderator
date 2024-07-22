@@ -1,50 +1,29 @@
-<p style="color: green"><%= notice %></p>
-<div class="d-flex align-items-center p-3 mx-5" data-turbo-frame="filter">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h1>Leagues</h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <%= form_with url: leagues_path, method: :get, remote: true, data: { controller: "filter" } do %>
-          <div class="d-flex align-items-center">
-            <%= label_tag :sport, "Sport", class: "me-2" %>
-            <%= select_tag :sport, options_for_select(@sports, params[:sport]), include_blank: true, class: "form-select m-3", data: { action: "change->filter#submit" } %>
-            <%= label_tag :day, "Day", class: "me-2" %>
-            <%= select_tag :day, options_for_select(@days, params[:day]), include_blank: true, class: "form-select m-3", data: { action: "change->filter#submit" } %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+<%= turbo_stream_from "leagues" %>
+<main class="container">
+  <div class="header">
+    <h1>Leagues</h1>
   </div>
-</div>
-<% if @leagues.blank? %>
-  <p>No leagues found</p>
-<% else %>
-  <div class="container">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Organization</th>
-          <th>Sport</th>
-          <th>Days</th>
-          <th>Start Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @leagues.each do |league| %>
-          <tr>
-            <td><%= link_to league.title, league_path(league) %></td>
-            <td><%= league.organization.name %></td>
-            <td><%= league.sport %></td>
-            <td><%= league.days.to_a.join(", ") %></td>
-            <td><%= league.start_date.strftime("%B %d, %Y") %></td>
-          </tr>
+  <% if @leagues.none? %>
+    <%= render "empty_state" %>
+  <% end %>
+  <%# TODO: Make this a proper filter with turbo %>
+  <nav class="tabs">
+    <ul>
+      <% @leagues_by_sport.each do |sport, leagues|%>
+        <li>
+          <a href="#<%= sport.parameterize %>"><%= sport %></a>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+  <%= turbo_frame_tag "leagues" do %>
+    <% @leagues_by_sport.each do |sport, leagues|%>
+      <h2 class="header" id="<%= sport.parameterize %>"><%= sport %></h2>
+      <ul>
+        <% leagues.each do |league| %>
+          <%= render league %>
         <% end %>
-      </tbody>
-    </table>
-  </div>
-<% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</main>

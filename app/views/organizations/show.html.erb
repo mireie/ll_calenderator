@@ -1,10 +1,16 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @organization %>
-
-<div>
-  <%= link_to "Edit this organization", edit_organization_path(@organization) %> |
-  <%= link_to "Back to organizations", organizations_path %>
-
-  <%= button_to "Destroy this organization", @organization, method: :delete %>
-</div>
+<main class="container">
+  <%= link_to sanitize("&larr; Back to organizations"), organizations_path %>
+  <div class="header">
+    <h1><%= @organization.name %></h1>
+  </div>
+  <%= turbo_frame_tag "leagues", class: "leagues" do %>
+    <% @leagues_by_sport.each do |sport, leagues|%>
+      <h2><%= sport %></h2>
+      <ul>
+        <% leagues.each do |league| %>
+          <li><%= link_to league.title, league_path(league), target: "_top" %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</main>

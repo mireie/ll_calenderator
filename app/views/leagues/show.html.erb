@@ -1,79 +1,9 @@
-<p style="color: green"><%= notice %></p>
-<div class="d-flex align-items-center p-3 mx-5 flex-wrap">
-  <div class="container">
-    <%= link_to '<< Leagues', leagues_path %>
-  </div>
-  <div class="container">
+<main class="container">
+  <%= link_to sanitize("&larr; Back to leagues"), leagues_path %>
+  <div class="header">
     <h1><%= @league.title %></h1>
-    <div class="d-flex flex-wrap text-center justify-content-evenly">
-      <% @league.teams.order(:name).each do |team| %>
-        <div class="card m-3" style="width: 18rem;">
-          <div class="card-body">
-            <h3 class="card-title"><%= team.name %></h3>
-            <%= link_to "Subscribe to Webcal", "webcal://#{request.host_with_port}#{team_webcal_path(team, format: :ics)}", class: "btn btn-primary m-3" %>
-            <%= link_to "Download .ics", team_webcal_path(team, format: :ics), class: "btn btn-secondary m-3" %>
-          </div>
-        </div>
-      <% end %>
-    </div>
   </div>
-</div>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('button[data-url]').forEach(function(button) {
-      button.addEventListener('click', function() {
-  var url = this.dataset.url;
-
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-    },
-    credentials: 'same-origin'
-  }).then(function(response) {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.text();
-  }).then(function(data) {
-    document.querySelector('#' + button.parentElement.id).outerHTML = data;
-  }).catch(function(error) {
-    console.error('There has been a problem with your fetch operation:', error);
-  });
-      });
-    });
-  });
-
-  // if card-title == "Betty Ford Allstars (BFA)" then make the whole card sparkle
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.card-title').forEach(function(cardTitle) {
-      if (cardTitle.textContent == "Betty Ford Allstars (BFA)") {
-        cardTitle.classList.add('whiteBackground');
-        cardTitle.parentElement.parentElement.classList.add('sparkle');
-      }
-    });
-  });
-</script>
-<style>
-  .whiteBackground {
-    color:black;
-    background-color: white;
-    border-radius: 10px;
-    padding: .5em;
-  }
-  .sparkle {
-    color: white;
-    background-size: 200% 200%;
-    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-    animation: gradient 1s linear infinite;
-  }
-
-  @keyframes gradient {
-    0% { background-position: 0% 0%; transform: scale(1) rotate(-2deg); border-radius: 10px; }
-    25% { transform: scale(1.05) rotate(0deg); }
-    50% { background-position: 50% 0%; transform: scale(1) rotate(2deg); }
-    75% { transform: scale(1.05) rotate(0deg); border-radius: 20px; }
-    100% { background-position: 0% 0%; transform: scale(1) rotate(-2deg); border-radius: 10px; }
-  }
-</style>
+  <%= turbo_frame_tag "teams", class: "teams" do %>
+    <%= render @teams, league: @league %>
+  <% end %>
+</main>

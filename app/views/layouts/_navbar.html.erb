@@ -1,0 +1,22 @@
+<header class="navbar">
+  <div class="container">
+    <nav>
+      <ul>
+        <li>
+          <span class="navbar__logo">
+            <%= link_to "KickCal", root_path %>
+          </span>
+        </li>
+        <li>
+          <turbo-frame id="main_content">
+            <%= link_to "Organizations", organizations_path, data: { turbo_frame: "_top" } %>
+          </turbo-frame>
+        </li>
+        <li>
+          <turbo-frame id="main_content">
+            <%= link_to "Leagues", leagues_path, data: { turbo_frame: "_top" } %>
+          </turbo-frame>
+        </ul>
+      </nav>
+    </div>
+  </header>

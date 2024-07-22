@@ -1,0 +1,19 @@
+en:
+  simple_form:
+    placeholders:
+      league:
+        name: Name of your league
+    labels:
+      league:
+        name: Name
+      team:
+        date: Date
+
+  helpers:
+    submit:
+      league:
+        create: Create league
+        update: Update league
+      team:
+        create: Create team
+        update: Update team

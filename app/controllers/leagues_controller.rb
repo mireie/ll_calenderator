@@ -3,26 +3,27 @@
 # This is the controller for the League model.
 class LeaguesController < ApplicationController
   before_action :set_league, only: %i[show edit update destroy]
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show teams]
 
   # GET /leagues or /leagues.json
   def index
-    @leagues = active_leagues.order(:start_date)
+    @leagues = active_leagues.order(:start_date).includes(:organization)
     @sports = @leagues.map(&:sport).uniq
+    @leagues_by_sport = @leagues.group_by(&:sport).transform_values do |leagues|
+      leagues.sort_by(&:start_date)
+    end
     @days = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
     process_request
     respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("filter", partial: "filter", locals: { leagues: @leagues })
-      end
       format.html
+      format.turbo_stream
     end
   end
 
   # GET /leagues/1 or /leagues/1.json
   def show
-    @current_user = current_user
+    @teams = @league.teams.ordered
   end
 
   # GET /leagues/new
@@ -37,27 +38,25 @@ class LeaguesController < ApplicationController
   def create
     @league = League.new(league_params)
 
-    respond_to do |format|
-      if @league.save
-        format.html { redirect_to league_url(@league), notice: t(".success") }
-        format.json { render :show, status: :created, location: @league }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @league.errors, status: :unprocessable_entity }
+    if @league.save
+      respond_to do |format|
+        format.html { redirect_to leagues_path, notice: t(".success") }
+        format.turbo_stream { flash.now[:notice] = t(".success") }
       end
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /leagues/1 or /leagues/1.json
   def update
-    respond_to do |format|
-      if @league.update(league_params)
-        format.html { redirect_to league_url(@league), notice: t(".success") }
-        format.json { render :show, status: :ok, location: @league }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @league.errors, status: :unprocessable_entity }
+    if @league.update(league_params)
+      respond_to do |format|
+        format.html { redirect_to leagues_path, notice: t(".success") }
+        format.turbo_stream { flash.now[:notice] = t(".success") }
       end
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -67,8 +66,14 @@ class LeaguesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to leagues_url, notice: t(".success") }
-      format.json { head :no_content }
+      format.turbo_stream { flash.now[:notice] = t(".success") }
     end
+  end
+
+  def teams
+    @league = League.find(params[:id])
+    @teams = @league.teams
+    render partial: "leagues/teams", locals: { teams: @teams, league: @league }
   end
 
   private
@@ -105,6 +110,7 @@ class LeaguesController < ApplicationController
   end
 
   def active_leagues
+    return League.all
     leagues = League.includes(:games).where(games: { start_time: Time.zone.now.. }).distinct
     return leagues if leagues.present?
 

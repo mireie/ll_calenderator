@@ -1,0 +1,3 @@
+<%= turbo_stream.prepend "leagues", @league %>
+<%= turbo_stream.update League.new, "" %>
+<%= render_turbo_stream_flash_messages %>

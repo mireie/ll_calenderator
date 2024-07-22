@@ -1,9 +1,9 @@
-<h1>New league</h1>
-
-<%= render "form", league: @league %>
-
-<br>
-
-<div>
-  <%= link_to "Back to leagues", leagues_path %>
-</div>
+<main class="container">
+  <%= link_to sanitize("&larr; Back to leagues"), leagues_path %>
+  <div class="header">
+    <h1>New league</h1>
+  </div>
+  <%= turbo_frame_tag @league do %>
+    <%= render "form", league: @league %>
+  <% end %>
+</main>

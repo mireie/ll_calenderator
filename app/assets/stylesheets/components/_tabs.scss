@@ -1,0 +1,11 @@
+.tabs {
+  display: block;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  ul {
+    display: flex;
+    list-style: none;
+    gap: var(--space-m);
+  }
+}

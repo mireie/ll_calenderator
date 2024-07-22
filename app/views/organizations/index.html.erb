@@ -1,14 +1,12 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Organizations</h1>
-
-<div id="organizations">
-  <% @organizations.each do |organization| %>
-    <%= render organization %>
-    <p>
-      <%= link_to "Show this organization", organization %>
-    </p>
+<%= turbo_stream_from "organizations" %>
+<main class="container">
+  <div class="header">
+    <h1>Organizations</h1>
+  </div>
+  <% if @organizations.none? %>
+    <%= render "empty_state" %>
   <% end %>
-</div>
-
-<%= link_to "New organization", new_organization_path %>
+  <%= turbo_frame_tag "organizations" do %>
+    <%= render @organizations %>
+  <% end %>
+</main>

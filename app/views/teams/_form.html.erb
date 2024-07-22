@@ -1,17 +1,6 @@
-<%= form_with(model: team) do |form| %>
-  <% if team.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(team.errors.count, "error") %> prohibited this team from being saved:</h2>
-
-      <ul>
-        <% team.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.submit %>
-  </div>
+<%= simple_form_for [league, team], html: { class: "form team" } do |f| %>
+  <%= form_error_notification(team) %>
+  <%= f.input :date, html5: true, input_html: { autofocus: true } %>
+  <%= link_to "Cancel", league_path(league), class: "btn btn--light" %>
+  <%= f.submit class: "btn btn--secondary" %>
 <% end %>

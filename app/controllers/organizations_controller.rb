@@ -3,16 +3,17 @@
 # This is the controller for the Organization model.
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[show edit update destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: %i[index show]
 
   # GET /organizations or /organizations.json
   def index
-    authorize Organization
     @organizations = Organization.all
   end
 
   # GET /organizations/1 or /organizations/1.json
-  def show; end
+  def show
+    @leagues_by_sport = @organization.leagues_by_sport.sort.to_h
+  end
 
   # GET /organizations/new
   def new

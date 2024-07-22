@@ -1,0 +1,26 @@
+// app/assets/stylesheets/application.sass.scss
+
+// Mixins
+@import "mixins/media";
+
+// Configuration
+@import "config/variables";
+@import "config/reset";
+@import "config/animations";
+
+// Components
+@import "components/navbar";
+@import "components/btn";
+@import "components/error_message";
+@import "components/visually_hidden";
+@import "components/turbo_progress_bar";
+@import "components/card";
+@import "components/flash";
+@import "components/empty_state";
+@import "components/teams";
+@import "components/team";
+@import "components/tabs";
+
+// Layouts
+@import "layouts/container";
+@import "layouts/header";
