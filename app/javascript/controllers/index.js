@@ -9,3 +9,6 @@ application.register("filter", FilterController)
 
 import RemovalsController from "./removals_controller"
 application.register("removals", RemovalsController)
+
+import ClipboardController from "./clipboard_controller"
+application.register("clipboard", ClipboardController)

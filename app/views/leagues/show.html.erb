@@ -3,7 +3,7 @@
   <div class="header">
     <h1><%= @league.title %></h1>
   </div>
-  <%= turbo_frame_tag "teams" do %>
+  <%= turbo_frame_tag "teams", class: "teams" do %>
     <%= render @teams, league: @league %>
   <% end %>
 </main>

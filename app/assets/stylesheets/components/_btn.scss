@@ -49,6 +49,7 @@
   }
 
   &--light {
+    font-weight: normal;
     color: var(--color-dark);
     background-color: var(--color-light);
 
@@ -72,5 +73,12 @@
     &:active {
       color: var(--color-white);
     }
+  }
+
+  &--icon {
+    display: flex;
+    padding: var(--space-xxs);
+    align-items: center;
+    justify-content: center;
   }
 }
