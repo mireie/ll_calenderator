@@ -13,10 +13,8 @@ class LeaguesController < ApplicationController
 
     process_request
     respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("filter", partial: "filter", locals: { leagues: @leagues })
-      end
       format.html
+      format.turbo_stream
     end
   end
 
@@ -38,7 +36,10 @@ class LeaguesController < ApplicationController
     @league = League.new(league_params)
 
     if @league.save
-      redirect_to leagues_, notice: t(".success")
+      respond_to do |format|
+        format.html { redirect_to leagues_path, notice: t(".success") }
+        format.turbo_stream { flash.now[:notice] = t(".success") }
+      end
     else
       render :new, status: :unprocessable_entity
     end
@@ -47,9 +48,11 @@ class LeaguesController < ApplicationController
   # PATCH/PUT /leagues/1 or /leagues/1.json
   def update
     if @league.update(league_params)
-      redirect_to leagues_path, notice: "League was successfully updated."
+      respond_to do |format|
+        format.html { redirect_to leagues_path, notice: t(".success") }
+        format.turbo_stream { flash.now[:notice] = t(".success") }
+      end
     else
-      # Add `status: :unprocessable_entity` here
       render :edit, status: :unprocessable_entity
     end
   end
@@ -60,7 +63,7 @@ class LeaguesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to leagues_url, notice: t(".success") }
-      format.json { head :no_content }
+      format.turbo_stream { flash.now[:notice] = t(".success") }
     end
   end
 

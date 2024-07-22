@@ -10,6 +10,9 @@
   </head>
   <body>
     <%= render "layouts/navbar" %>
+    <div id="flash" class="flash">
+      <%= render "layouts/flash" %>
+    </div>
     <turbo_frame id="main_content">
       <%= yield %>
     </turbo_frame>
