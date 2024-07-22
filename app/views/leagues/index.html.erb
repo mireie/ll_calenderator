@@ -7,6 +7,13 @@
     <%= render "empty_state" %>
   <% end %>
   <%= turbo_frame_tag "leagues" do %>
-    <%= render @leagues %>
+    <% @leagues_by_sport.each do |sport, leagues|%>
+      <h2 class="header"><%= sport %></h2>
+      <ul>
+        <% leagues.each do |league| %>
+          <%= render league %>
+        <% end %>
+      </ul>
+    <% end %>
   <% end %>
 </main>

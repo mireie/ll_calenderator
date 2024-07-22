@@ -1,10 +1,21 @@
 <%= turbo_frame_tag league do %>
   <div class="league card">
-    <%= link_to league.title, league, data: { turbo_frame: "_top" } %>
+    <div class="card__heading">
+      <div class="card__title">
+        <%= link_to league.title, league, data: { turbo_frame: "_top" } %>
+        <div class="card__subtitle">
+          <p><%= link_to league.organization.name, league.organization,data: { turbo_frame: "_top" } %></p>
+        </div>
+      </div>
+      <div class="card__teams">
+        <%= link_to "Team calendars", league, class: "btn btn--primary", data: { turbo_frame: "_top" } %>
+      </div>
+    </div>
     <div class="card__body">
-      <p><%= league.description %></p>
-      <p><%= league.days %></p>
-      <p><%= league.sport %></p>
+      <p><strong>Days: </strong><%= league.days.join(", ") %></p>
+      <div class="card_content">
+        <p><%= league.description %></p>
+      </div>
     </div>
   </div>
 <% end %>

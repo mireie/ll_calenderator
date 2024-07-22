@@ -11,7 +11,9 @@ class OrganizationsController < ApplicationController
   end
 
   # GET /organizations/1 or /organizations/1.json
-  def show; end
+  def show
+    @leagues_by_sport = @organization.leagues_by_sport.sort.to_h
+  end
 
   # GET /organizations/new
   def new

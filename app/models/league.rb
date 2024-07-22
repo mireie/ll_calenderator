@@ -12,6 +12,11 @@ class League < ApplicationRecord
 
   broadcasts_to ->(league) { "leagues" }, inserts_by: :prepend
 
+  scope :active, lambda {
+    leagues_with_games = League.includes(:games).where(games: { start_time: Time.zone.now.. }).distinct
+    leagues_with_games.presence || League.where(start_date: Time.zone.now..).distinct
+  }
+
   def sync_schedule
     LeagueScheduleSyncJob.perform_async(id)
   end

@@ -9,9 +9,34 @@
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
   }
 
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
   &__title {
     font-size: 20px;
     margin-bottom: 10px;
+  }
+
+  &__subtitle {
+    font-size: 16px;
+    color: var(--color-text-muted);
+
+    a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+      &:hover {
+        color: var(--color-primary-rotate);
+      }
+    }
+  }
+
+  &__body {
+    margin-top: 20px;
+    gap: 20px;
   }
 
   &__content {
@@ -19,12 +44,8 @@
   }
 
   &__teams {
-    display: grid;
-    margin-top: 20px;
-  }
-
-  &__team {
     display: flex;
+    justify-content: center;
     align-items: center;
   }
 
