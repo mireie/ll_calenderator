@@ -10,6 +10,8 @@ class League < ApplicationRecord
 
   require "icalendar/tzinfo"
 
+  broadcasts_to ->(league) { "leagues" }, inserts_by: :prepend
+
   def sync_schedule
     LeagueScheduleSyncJob.perform_async(id)
   end

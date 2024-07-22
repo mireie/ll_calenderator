@@ -104,6 +104,7 @@ class LeaguesController < ApplicationController
   end
 
   def active_leagues
+    return League.all
     leagues = League.includes(:games).where(games: { start_time: Time.zone.now.. }).distinct
     return leagues if leagues.present?
 
