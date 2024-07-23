@@ -10,7 +10,7 @@ console_command = '/rails/bin/rails console'
 [build]
 
 [deploy]
-  release_command = './bin/rails db:prepare'
+  release_command = "./bin/rails db:prepare"
 
 [http_service]
   internal_port = 3000
@@ -30,5 +30,5 @@ console_command = '/rails/bin/rails console'
   url_prefix = '/'
 
 [processes]
-app = "bin/rails server"
-worker = "bundle exec sidekiq"
+  app = "./bin/rails server"
+  sidekiq = "bundle exec sidekiq"
