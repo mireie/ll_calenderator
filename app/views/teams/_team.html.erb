@@ -1,4 +1,4 @@
-<%= turbo_frame_tag team, class: "team" do %>
+  <%= turbo_frame_tag team, class: (team.name == "Betty Ford Allstars (BFA)") ? "team team__bfa" : "team" do %>
   <div class="team__header">
     <h2 class="team__title">
       <%= team.name %>
