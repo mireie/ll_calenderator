@@ -12,6 +12,7 @@ class LeaguesController < ApplicationController
     @leagues_by_sport = @leagues.group_by(&:sport).transform_values do |leagues|
       leagues.sort_by(&:start_date)
     end
+    @leagues_by_sport = @leagues_by_sport.sort.to_h
     @days = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
     process_request

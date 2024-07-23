@@ -5,7 +5,7 @@
   </div>
   <%= turbo_frame_tag "leagues", class: "leagues" do %>
     <% @leagues_by_sport.each do |sport, leagues|%>
-      <h2><%= sport %></h2>
+      <h2 class="leagues__sport"><%= sport %></h2>
       <ul>
         <% leagues.each do |league| %>
           <li><%= link_to league.title, league_path(league), target: "_top" %></li>
