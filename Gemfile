@@ -84,3 +84,5 @@ gem "sidekiq"
 gem "pundit"
 gem "geocoder"
 gem "simple_form", "~> 5.1.0"
+
+gem "bugsnag", "~> 6.27"
