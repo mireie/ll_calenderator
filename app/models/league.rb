@@ -17,6 +17,10 @@ class League < ApplicationRecord
     leagues_with_games.presence || League.where(start_date: Time.zone.now..).distinct
   }
 
+  scope :with_future_games, lambda {
+    League.includes(:games).where(games: { start_time: Time.zone.now.. }).distinct
+  }
+
   def sync_schedule
     LeagueScheduleSyncJob.perform_async(id)
   end

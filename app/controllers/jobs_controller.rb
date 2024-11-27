@@ -5,8 +5,8 @@ class JobsController < ApplicationController
   before_action :authenticate
 
   def sync_games
-    SyncLeagueGamesJob.perform_async
-    render json: { message: "SyncLeagueGamesJob enqueued" }, status: :ok
+    NightlySyncJob.perform_async
+    render json: { message: "NightlySyncJob enqueued" }, status: :ok
   end
 
   def sync_leagues

@@ -6,24 +6,12 @@
   <% if @leagues.none? %>
     <%= render "empty_state" %>
   <% end %>
-  <%# TODO: Make this a proper filter with turbo %>
-  <nav class="tabs">
+  <% if @active_leagues.any? %>
+    <h2 class="header">Active Leagues</h2>
     <ul>
-      <% @leagues_by_sport.each do |sport, leagues|%>
-        <li>
-          <a href="#<%= sport.parameterize %>"><%= sport %></a>
-        </li>
+      <% @active_leagues.each do |league| %>
+        <%= render league %>
       <% end %>
     </ul>
-  </nav>
-  <%= turbo_frame_tag "leagues" do %>
-    <% @leagues_by_sport.each do |sport, leagues|%>
-      <h2 class="header" id="<%= sport.parameterize %>"><%= sport %></h2>
-      <ul>
-        <% leagues.each do |league| %>
-          <%= render league %>
-        <% end %>
-      </ul>
-    <% end %>
   <% end %>
 </main>
