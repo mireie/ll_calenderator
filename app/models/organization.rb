@@ -7,7 +7,7 @@ class Organization < ApplicationRecord
   has_many :teams, through: :leagues
   has_many :games, through: :leagues
 
-  enum status: { inactive: 0, active: 1 }
+  enum :status, %i[inactive active]
 
   scope :active, -> { where(status: :active) }
   default_scope { active }
