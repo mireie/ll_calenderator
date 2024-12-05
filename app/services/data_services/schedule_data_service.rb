@@ -93,7 +93,7 @@ module DataServices
     def game_attributes(game_data)
       {
         external_id: game_data[:external_id],
-        start_time: game_data[:start_time].in_time_zone("Pacific Time (US & Canada)"),
+        start_time: game_data[:start_time],
         field: game_data.dig(:field, :number),
         status: :scheduled,
       }

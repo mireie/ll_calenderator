@@ -9,7 +9,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <script type="module">
       import BugsnagPerformance from '//d2wy8f7a9ursnm.cloudfront.net/v1/bugsnag-performance.min.js'
-      BugsnagPerformance.start({ apiKey: '7835b86751d73ce9b92cb9fa873c7999' })
+      BugsnagPerformance.start({ apiKey: '<%= Rails.application.credentials.bugsnag_api_key %>' })
     </script>
   </head>
   <body>
