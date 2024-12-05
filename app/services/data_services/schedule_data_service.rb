@@ -93,8 +93,8 @@ module DataServices
     def game_attributes(game_data)
       {
         external_id: game_data[:external_id],
-        start_time: game_data[:start_time],
-        field: game_data.dig(:field, :name),
+        start_time: game_data[:start_time].in_time_zone("Pacific Time (US & Canada)"),
+        field: game_data.dig(:field, :number),
         status: :scheduled,
       }
     end
@@ -102,9 +102,16 @@ module DataServices
     def parse_location(field)
       return if field.blank?
 
-      location = Location.find_by(external_id: field[:location_id])
-      return location if location
+      find_existing_location(field) || create_new_location(field)
+    end
 
+    def find_existing_location(field)
+      return if field[:location_id].blank?
+
+      Location.find_by(external_id: field[:location_id].to_i)
+    end
+
+    def create_new_location(field)
       DataServices::LocationDataService.new.create_from_field_data(field)
     end
 

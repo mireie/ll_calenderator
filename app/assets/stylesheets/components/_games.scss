@@ -1,0 +1,109 @@
+.games {
+  .games-list {
+    margin-top: var(--space-m);
+  }
+
+  .games-date-section {
+    margin-bottom: var(--space-xxl);
+
+    h3 {
+      margin-bottom: var(--space-l);
+      color: var(--color-text-header);
+      font-size: var(--font-size-l);
+      padding-bottom: var(--space-xs);
+      border-bottom: var(--border);
+    }
+  }
+
+  .games-table-wrapper {
+    padding-top: var(--space-m);
+  }
+
+  .games-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: var(--space-m);
+    box-shadow: var(--shadow-small);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+
+    th,
+    td {
+      padding: var(--space-m);
+      text-align: left;
+    }
+
+    th {
+      font-weight: var(--font-weight-bold);
+      background-color: var(--color-light);
+      color: var(--color-text-header);
+      font-size: var(--font-size-s);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: var(--border);
+    }
+
+    td {
+      border-bottom: 1px solid var(--color-light);
+      color: var(--color-text-body);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background-color: var(--color-background);
+    }
+
+    td:first-child {
+      white-space: nowrap;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    @include media(tabletAndUp) {
+      margin-bottom: var(--space-l);
+    }
+
+    @media (max-width: 768px) {
+      box-shadow: none;
+
+      th {
+        display: none;
+      }
+
+      tr {
+        display: block;
+        margin-bottom: var(--space-m);
+        box-shadow: var(--shadow-small);
+        border-radius: var(--border-radius);
+        background: var(--color-white);
+      }
+
+      td {
+        display: block;
+        text-align: right;
+        padding: var(--space-s) var(--space-m);
+        border-bottom: 1px solid var(--color-light);
+
+        &:before {
+          content: attr(data-label);
+          float: left;
+          font-weight: 600;
+          text-transform: uppercase;
+          font-size: var(--font-size-xs);
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  .games-header {
+    padding-bottom: var(--space-l);
+  }
+}
