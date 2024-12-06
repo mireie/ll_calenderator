@@ -6,7 +6,7 @@ module Parsers
       @doc = parse_html(html)
       @doc.css("div#locationDetails .infoWindow").map do |location_data|
         {
-          id: location_data.attributes["id"]&.value&.split("_")&.last,
+          external_id: location_data.attributes["id"]&.value&.split("_")&.last,
           name: location_data.css("h3").inner_text.strip,
           address: clean_address(location_data.css("div.address").inner_text).presence,
         }
