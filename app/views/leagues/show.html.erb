@@ -7,4 +7,42 @@
   <%= turbo_frame_tag "teams", class: "teams" do %>
     <%= render @teams, league: @league %>
   <% end %>
+  <div class="games">
+    <div class="header">
+      <h2>Games</h2>
+    </div>
+    <% if @games.any? %>
+      <% @games.group_by { |game| game.start_time.to_date }.each do |date, games| %>
+        <div class="games-date-section">
+          <h3><%= date.strftime("%A, %B %d, %Y") %></h3>
+          <div class="games-table-wrapper">
+            <table class="games-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Home Team</th>
+                  <th>Away Team</th>
+                  <th>Location</th>
+                  <th>Field</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% games.each do |game| %>
+                  <tr>
+                    <td data-label="Time"><%= game.start_time.strftime("%-I:%M %p") %></td>
+                    <td data-label="Home Team"><%= game.home_team.name %></td>
+                    <td data-label="Away Team"><%= game.away_team.name %></td>
+                    <td data-label="Location"><%= game.location.name %></td>
+                    <td data-label="Field"><%= game.field %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No games scheduled yet.</p>
+    <% end %>
+  </div>
 </main>

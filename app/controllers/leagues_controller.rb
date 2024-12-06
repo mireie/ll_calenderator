@@ -24,7 +24,8 @@ class LeaguesController < ApplicationController
 
   # GET /leagues/1 or /leagues/1.json
   def show
-    @teams = @league.teams.ordered
+    @teams = @league.teams
+    @games = @league.games.includes(:game_teams).order(:start_time)
   end
 
   # GET /leagues/new

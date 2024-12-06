@@ -6,8 +6,6 @@ class League < ApplicationRecord
   has_many :teams, dependent: :nullify
   has_many :games, dependent: :destroy
 
-  DEFAULT_TIME_ZONE = "America/Los_Angeles"
-
   require "icalendar/tzinfo"
 
   broadcasts_to ->(league) { "leagues" }, inserts_by: :prepend

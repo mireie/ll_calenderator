@@ -30,15 +30,24 @@ module Parsers
     def parse_start_time
       id_parts = parse_external_id.split("_")
       date = id_parts[1]
-      time = id_parts[2].gsub("-", ":")
-      # TODO: Add support for timezone
-      Time.zone.parse("#{date} #{time}")
+      time = format_time(id_parts[2])
+      convert_to_utc("#{date} #{time}")
+    end
+
+    def format_time(time_str)
+      time_str.gsub("-", ":")
+    end
+
+    def convert_to_utc(datetime_str)
+      Time.use_zone("Pacific Time (US & Canada)") do
+        Time.zone.parse(datetime_str).utc
+      end
     end
 
     def parse_field(game_id, fields)
       return if fields.nil?
 
-      fields.find { |field| field[:location_id] == game_id.split("_")[-2] }
+      fields.find { |field| field[:col] == game_id.split("_").last.to_i }
     end
 
     def parse_officiating_team_name
