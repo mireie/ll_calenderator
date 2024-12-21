@@ -4,6 +4,8 @@
 class Team < ApplicationRecord
   belongs_to :league
   has_one :organization, through: :league
+  has_many :memberships, dependent: :destroy
+  has_many :users, through: :memberships
   has_many :game_teams, dependent: :destroy
   has_many :games, through: :game_teams
 

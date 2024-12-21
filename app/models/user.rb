@@ -7,5 +7,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :memberships, dependent: :destroy
+  has_many :teams, through: :memberships
   enum :role, %i[user super]
 end
