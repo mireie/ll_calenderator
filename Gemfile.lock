@@ -76,6 +76,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
     base64 (0.2.0)
+    bcrypt (3.1.20)
     benchmark (0.4.0)
     bigdecimal (3.1.8)
     bindex (0.8.1)
@@ -131,6 +132,10 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hotwire-spark (0.1.8)
+      listen
+      rails (>= 8.0.0)
+      zeitwerk
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     icalendar (2.10.1)
@@ -229,11 +234,6 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
-    rails_live_reload (0.3.6)
-      listen
-      nio4r
-      railties
-      websocket-driver
     railties (8.0.0)
       actionpack (= 8.0.0)
       activesupport (= 8.0.0)
@@ -367,6 +367,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   bootsnap
   bugsnag (~> 6.27)
   bullet
@@ -377,6 +378,7 @@ DEPENDENCIES
   factory_bot
   factory_bot_rails
   geocoder
+  hotwire-spark
   icalendar
   jbuilder
   jsbundling-rails
@@ -386,7 +388,6 @@ DEPENDENCIES
   pundit
   rack-mini-profiler
   rails (~> 8.0.0)
-  rails_live_reload (~> 0.3.6)
   redis (~> 4.0)
   rspec-rails
   rubocop

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   resources :organizations
   resources :locations
   resources :games
@@ -21,8 +23,8 @@ Rails.application.routes.draw do
   # Sidekiq Web UI
   require "sidekiq/web"
 
-  authenticate :user, ->(user) { user.super? } do
-    mount Sidekiq::Web => "/sidekiq"
-    mount PgHero::Engine, at: "pghero" if defined?(PgHero)
-  end
+  # authenticate :user, ->(user) { user.super? } do
+  #   mount Sidekiq::Web => "/sidekiq"
+  #   mount PgHero::Engine, at: "pghero" if defined?(PgHero)
+  # end
 end

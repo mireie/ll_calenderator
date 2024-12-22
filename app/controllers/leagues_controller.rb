@@ -3,7 +3,7 @@
 # This is the controller for the League model.
 class LeaguesController < ApplicationController
   before_action :set_league, only: %i[show edit update destroy]
-  skip_before_action :authenticate_user!, only: %i[index show teams]
+  # skip_before_action :authenticate_user!, only: %i[index show teams]
 
   # GET /leagues or /leagues.json
   def index
