@@ -3,7 +3,7 @@
 # This is the controller for the Organization model.
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: %i[show edit update destroy]
-  # before_action :authenticate_user!, except: %i[index show]
+  allow_unauthenticated_access only: %i[index show]
 
   # GET /organizations or /organizations.json
   def index

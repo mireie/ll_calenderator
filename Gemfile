@@ -70,6 +70,7 @@ group :development do
   gem "dockerfile-rails", ">= 1.6"
   gem "spring"
   gem "hotwire-spark"
+  gem "meta_request"
 end
 
 group :test do
