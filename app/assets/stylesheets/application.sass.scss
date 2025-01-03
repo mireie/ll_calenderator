@@ -12,16 +12,19 @@
 @import "components/navbar";
 @import "components/btn";
 @import "components/error_message";
+@import "components/form";
 @import "components/visually_hidden";
 @import "components/turbo_progress_bar";
 @import "components/card";
 @import "components/flash";
 @import "components/empty_state";
+@import "components/authentication";
 @import "components/teams";
 @import "components/team";
 @import "components/tabs";
 @import "components/leagues";
 @import "components/games";
+@import "components/home_page";
 
 // Layouts
 @import "layouts/container";

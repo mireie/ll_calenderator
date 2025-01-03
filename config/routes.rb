@@ -8,10 +8,11 @@ Rails.application.routes.draw do
   resources :games
   resources :teams
   resources :leagues
+  resource :registration, only: %i[new create]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root "leagues#index"
+  root "home#index"
   # # config/routes.rb
 
   get "admin", to: "admin#index"
