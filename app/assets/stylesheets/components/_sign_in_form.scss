@@ -2,18 +2,18 @@
   &__container {
     max-width: 28rem;
     margin: 0 auto;
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-large);
+    padding: var(--space-l);
   }
 
   &__header {
-    font-size: 1.5rem;
+    font-size: var(--font-size-xxl);
     font-weight: bold;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-l);
     text-align: center;
-    color: #333;
+    color: var(--color-text-header);
   }
 
   &__form {
@@ -30,22 +30,22 @@
 
   &__label {
     display: block;
-    font-size: 0.875rem;
+    font-size: var(--font-size-s);
     font-weight: 500;
-    color: #4a4a4a;
+    color: var(--color-text-body);
   }
 
   &__input {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 0.375rem;
+    padding: var(--space-s);
+    border: var(--border);
+    border-radius: var(--border-radius);
     transition: all 0.15s ease-in-out;
 
     &:focus {
       outline: none;
-      border-color: #4a90e2;
-      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px var(--color-glint);
     }
   }
 
@@ -60,14 +60,14 @@
   }
 
   &__link {
-    color: #4a90e2;
-    font-size: 0.875rem;
+    color: var(--color-primary);
+    font-size: var(--font-size-s);
     font-weight: 500;
     text-decoration: none;
     transition: color 0.15s ease-in-out;
 
     &:hover {
-      color: darken(#4a90e2, 15%);
+      color: var(--color-primary-rotate);
     }
   }
 
@@ -77,13 +77,13 @@
     border-radius: 0.375rem;
 
     &--error {
-      background-color: #fff5f5;
-      color: #dc3545;
+      background-color: var(--color-primary-bg);
+      color: var(--color-primary);
     }
 
     &--success {
-      background-color: #f0fff4;
-      color: #28a745;
+      background-color: var(--color-secondary-bg);
+      color: var(--color-secondary);
     }
   }
 }

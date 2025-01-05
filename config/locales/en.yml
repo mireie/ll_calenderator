@@ -49,6 +49,7 @@ en:
       success: "Session was successfully created."
     destroy: 
       success: "Session was successfully destroyed."
+    sign_out: "Sign out"
   locations:
     create:
       success: "Location was successfully created."
@@ -86,4 +87,7 @@ en:
   notices:
     refresh_all:
       success: "Jobs have been scheduled to refresh data for all organizations."
-  
+  registrations:
+    create:
+      success: "Welcome! Your account has been created."
+      email_taken: "Email address is already in use. Did you mean to <a href='%{sign_in_path}'>sign in</a>?"

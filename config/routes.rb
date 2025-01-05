@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resource :session
+  resource :session, only: %i[new create destroy]
   resources :passwords, param: :token
   resources :organizations
   resources :locations

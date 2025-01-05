@@ -1,12 +1,13 @@
 .card {
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-small);
+  padding: var(--space-l);
+  margin-bottom: var(--space-l);
   transition: box-shadow 0.3s;
+
   &:hover {
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-large);
   }
 
   &__heading {
@@ -16,8 +17,8 @@
   }
 
   &__title {
-    font-size: 20px;
-    margin-bottom: 10px;
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-xs);
   }
 
   &__subtitle {
@@ -28,6 +29,7 @@
       color: var(--color-text-muted);
       text-decoration: none;
       transition: color 0.3s;
+
       &:hover {
         color: var(--color-primary-rotate);
       }

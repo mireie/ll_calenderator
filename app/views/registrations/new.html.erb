@@ -15,7 +15,7 @@
 
       <h1 class="auth__header">Sign up</h1>
       
-      <%= form_with model: @user, url: new_registration_path, class: "auth__form" do |form| %>
+      <%= form_with model: @user, url: registration_path, class: "auth__form" do |form| %>
         <div class="auth__field-group">
           <%= form.label :email_address, class: "auth__label" %>
           <%= form.email_field :email_address,
