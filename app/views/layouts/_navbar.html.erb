@@ -20,7 +20,7 @@
       <ul class="navbar__right">
         <li>
           <% if authenticated? %>
-            <%= link_to t('sessions.sign_out'), session_path, method: :delete %>
+            <%= link_to t('sessions.sign_out'), session_path, data: { turbo_method: :delete, turbo_frame: "_top" } %>
           <% else %>
             <%= link_to "Sign in", new_session_path %>
           <% end %>

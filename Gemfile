@@ -66,11 +66,11 @@ group :development do
   gem "rubocop", require: false
   gem "rubocop-rails"
   gem "rubocop-capybara"
-  gem "rack-mini-profiler"
   gem "dockerfile-rails", ">= 1.6"
   gem "spring"
   gem "hotwire-spark"
   gem "meta_request"
+  gem "rack-mini-profiler"
 end
 
 group :test do

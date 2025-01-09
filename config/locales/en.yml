@@ -46,7 +46,8 @@ en:
       success: "User was successfully destroyed."
   sessions:
     create:
-      success: "Session was successfully created."
+      success: "Successfully signed in"
+      failure: "Try another email address or password"
     destroy: 
       success: "Session was successfully destroyed."
     sign_out: "Sign out"
