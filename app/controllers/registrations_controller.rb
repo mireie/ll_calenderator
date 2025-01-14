@@ -14,8 +14,9 @@ class RegistrationsController < ApplicationController
     begin
       if @user.save
         start_new_session_for @user
-        redirect_to root_path, notice: t(".success")
+        redirect_to root_path, notice: t(".success"), status: :see_other
       else
+        flash.now[:alert] = @user.errors.full_messages.join(", ")
         render :new, status: :unprocessable_entity
       end
     rescue ActiveRecord::RecordNotUnique

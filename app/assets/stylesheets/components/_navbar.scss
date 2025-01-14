@@ -42,4 +42,46 @@
   &__right {
     margin-left: auto;
   }
+
+  .dropdown {
+    position: relative;
+
+    &-toggle {
+      background: none;
+      border: none;
+      color: var(--color-text-header);
+      cursor: pointer;
+      font-size: var(--font-size-base);
+      padding: var(--space-xs) var(--space-s);
+    }
+
+    &-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: var(--color-white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-large);
+      min-width: 200px;
+      padding: var(--space-xs) 0;
+
+      li {
+        margin: 0;
+      }
+
+      a {
+        display: block;
+        padding: var(--space-xs) var(--space-m);
+
+        &:hover {
+          background-color: var(--color-gray-100);
+        }
+      }
+    }
+
+    &:hover .dropdown-menu {
+      display: block;
+    }
+  }
 }

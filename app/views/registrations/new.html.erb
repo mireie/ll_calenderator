@@ -1,18 +1,6 @@
 <%= turbo_frame_tag "authentication" do %>
   <main class="container mx-auto px-4 py-8">
     <div class="auth__container">
-      <% if flash[:alert] %>
-        <div class="auth__alert auth__alert--error">
-          <%= flash[:alert] %>
-        </div>
-      <% end %>
-      
-      <% if flash[:notice] %>
-        <div class="auth__alert auth__alert--success">
-          <%= flash[:notice] %>
-        </div>
-      <% end %>
-
       <h1 class="auth__header">Sign up</h1>
       
       <%= form_with model: @user, url: registration_path, class: "auth__form" do |form| %>

@@ -46,10 +46,10 @@ en:
       success: "User was successfully destroyed."
   sessions:
     create:
-      success: "Successfully signed in"
+      success: "You've successfully signed in."
       failure: "Try another email address or password"
     destroy: 
-      success: "Session was successfully destroyed."
+      success: "You've successfully signed out."
     sign_out: "Sign out"
   locations:
     create:
@@ -85,10 +85,16 @@ en:
     forbidden: "Forbidden"
     unprocessable_entity: "Unprocessable Entity"
     internal_server_error: "Internal Server Error"
+  nav:
+    user:
+      my_account: "My Account"
+      my_teams: "My Teams"
+      my_calendar: "My Calendar"
   notices:
     refresh_all:
       success: "Jobs have been scheduled to refresh data for all organizations."
   registrations:
     create:
       success: "Welcome! Your account has been created."
+      failure: "Something went wrong. Please try again."
       email_taken: "Email address is already in use. Did you mean to <a href='%{sign_in_path}'>sign in</a>?"
