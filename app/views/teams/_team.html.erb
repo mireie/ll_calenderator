@@ -18,5 +18,25 @@
     <div class="team__main-action">
       <%= link_to "Subscribe to Webcal", "webcal://#{request.host_with_port}#{team_webcal_path(team, format: :ics)}", class: "btn btn--primary" %>
     </div>
+    <% if authenticated? %>
+      <div class="team__subscription">
+        <%= form_with(model: UserTeam.new, local: true) do |f| %>
+          <%= f.hidden_field :team_id, value: team.id %>
+          <label class="checkbox-label">
+            <%= f.check_box :team_id, 
+                          { 
+                            checked: authenticated?.user.teams.include?(team),
+                            data: { 
+                              action: "change->form#submit"
+                            }
+                          },
+                          team.id,
+                          nil 
+            %>
+            Follow this team
+          </label>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 <% end %>
