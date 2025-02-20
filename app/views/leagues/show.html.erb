@@ -30,9 +30,9 @@
                 <% games.each do |game| %>
                   <tr>
                     <td data-label="Time"><%= game.start_time.strftime("%-I:%M %p") %></td>
-                    <td data-label="Home Team"><%= game.home_team.name %></td>
-                    <td data-label="Away Team"><%= game.away_team.name %></td>
-                    <td data-label="Location"><%= game.location.name %></td>
+                    <td data-label="Home Team"><%= game.home_team&.name %></td>
+                    <td data-label="Away Team"><%= game.away_team&.name %></td>
+                    <td data-label="Location"><%= game.location&.name %></td>
                     <td data-label="Field"><%= game.field %></td>
                   </tr>
                 <% end %>
