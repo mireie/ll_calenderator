@@ -80,7 +80,7 @@ class IcalEventService
   end
 
   def standard_summary(game)
-    "#{game.home_team.name} vs. #{game.away_team.name} - #{game.league.title}"
+    "#{game.home_team&.name} vs. #{game.away_team&.name} - #{game.league&.title}"
   end
 
   def should_show_role?(role)
