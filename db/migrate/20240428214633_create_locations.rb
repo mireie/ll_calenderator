@@ -5,6 +5,7 @@ class CreateLocations < ActiveRecord::Migration[7.0]
       t.string :address
       t.string :city
       t.string :state
+      t.boolean :verified, default: false
 
       t.timestamps
     end

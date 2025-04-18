@@ -86,3 +86,9 @@ gem "geocoder"
 gem "simple_form", "~> 5.1.0"
 
 gem "bugsnag", "~> 6.27"
+
+gem "solid_queue", "~> 1.1"
+
+gem "mission_control-jobs", "~> 1.0"
+
+gem "solid_cable", "~> 3.0"
