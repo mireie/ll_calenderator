@@ -80,7 +80,6 @@ end
 gem "devise"
 gem "icalendar"
 gem "nokogiri"
-gem "sidekiq"
 gem "pundit"
 gem "geocoder"
 gem "simple_form", "~> 5.1.0"
