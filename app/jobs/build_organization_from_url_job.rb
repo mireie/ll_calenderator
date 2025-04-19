@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class BuildOrganizationFromUrlJob
-  include Sidekiq::Worker
-
+class BuildOrganizationFromUrlJob < ApplicationJob
   def perform(url, paths: {})
     # build organization
     organization = DataServices::OrganizationDataService.new.create_organization(url, paths:)
@@ -13,9 +11,7 @@ class BuildOrganizationFromUrlJob
     # populate teams
     organization.leagues.each do |league|
       DataServices::TeamDataService.new.create_league_teams(league)
-
-      # populate games
-      DataServices::ScheduleDataService.new.parse(league.schedule_url)
+      SyncLeagueScheduleJob.perform_later(league)
     end
   end
 end

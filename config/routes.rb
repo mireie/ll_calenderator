@@ -19,11 +19,8 @@ Rails.application.routes.draw do
   get "teams/:id/webcal", to: "teams#webcal", as: "team_webcal"
   get "jobs/sync_games", to: "jobs#sync_games", as: "sync_games"
 
-  # Sidekiq Web UI
-  require "sidekiq/web"
-
   authenticate :user, ->(user) { user.super? } do
-    mount Sidekiq::Web => "/sidekiq"
+    mount MissionControl::Jobs::Engine, at: "/jobs"
     mount PgHero::Engine, at: "pghero" if defined?(PgHero)
   end
 end

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class ParseScheduleJob
-  include Sidekiq::Worker
-
+class ParseScheduleJob < ApplicationJob
   def perform(league_id)
     league = League.find(league_id)
     DataServices::ScheduleDataService.new.parse(league.schedule_url)

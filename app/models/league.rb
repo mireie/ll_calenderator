@@ -20,7 +20,8 @@ class League < ApplicationRecord
   }
 
   def sync_schedule
-    LeagueScheduleSyncJob.perform_async(id)
+    DataServices::ScheduleDataService.new.parse(schedule_url)
+    DataServices::ScheduleDataService.new.cleanup_removed_games(schedule_url)
   end
 
   # Fly's postgreSQL database does not support array types, so we store the days as a JSON string

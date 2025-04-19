@@ -83,6 +83,9 @@ module DataServices
       return if content_title.blank? || content_title.exclude?(":")
 
       role = content_title.split(":", 2).first.strip.downcase.split.join("_").to_sym
+      # temporary fix for teardown and setup
+      role = :field_teardown if role == :teardown
+      role = :field_setup if role == :setup
       team_name = content_title.split(":", 2).last.strip
       team = Team.find_by(name: team_name)
       return if team.blank?
