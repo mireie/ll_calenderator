@@ -20,8 +20,4 @@ class Organization < ApplicationRecord
   def leagues_url
     base_url + leagues_path
   end
-
-  def leagues_by_sport
-    leagues.group_by(&:sport)
-  end
 end

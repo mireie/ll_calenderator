@@ -9,10 +9,10 @@ class LeaguesController < ApplicationController
   def index
     @leagues = active_leagues.order(:start_date)
     @sports = @leagues.map(&:sport).uniq
-    @leagues_by_sport = @leagues.group_by(&:sport).transform_values do |leagues|
+    @leagues_by_sport = @leagues.active_or_upcoming.group_by(&:sport).transform_values do |leagues|
       leagues.sort_by(&:start_date)
     end
-    @active_leagues = League.with_future_games.includes(:organization)
+    @active_leagues = League.active.includes(:organization)
     @days = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
     process_request

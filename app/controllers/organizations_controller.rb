@@ -12,7 +12,7 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations/1 or /organizations/1.json
   def show
-    @leagues_by_sport = @organization.leagues_by_sport.sort.to_h
+    @leagues_by_sport = @organization.leagues.active_or_upcoming.group_by(&:sport).sort.to_h
   end
 
   # GET /organizations/new
