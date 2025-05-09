@@ -14,18 +14,24 @@ class League < ApplicationRecord
     leagues_with_games = League.includes(:games).where(games: { start_time: Time.zone.now.. }).distinct
     leagues_with_games.presence || League.where(start_date: Time.zone.now..).distinct
   }
+  scope :upcoming, -> { where("start_date > ?", Time.zone.now) }
 
   scope :with_future_games, lambda {
     League.includes(:games).where(games: { start_time: Time.zone.now.. }).distinct
   }
+
+  def sync_details
+    attributes = DataServices::LeagueDataService.new.league_attributes(details_url)
+    assign_attributes(attributes)
+    save! if changed? || new_record?
+  end
 
   def sync_schedule
     DataServices::ScheduleDataService.new.parse(schedule_url)
     DataServices::ScheduleDataService.new.cleanup_removed_games(schedule_url)
   end
 
-  # Fly's postgreSQL database does not support array types, so we store the days as a JSON string
-  # TODO: Refactor to store as JSON or something
+  # TODO: Refactor to use jsonb
   def days
     day_string = read_attribute(:days)
     return [] if day_string.blank?
@@ -35,6 +41,10 @@ class League < ApplicationRecord
 
   def url
     "#{organization.base_url}/league/#{external_id}"
+  end
+
+  def details_url
+    url + "/details"
   end
 
   def schedule_url

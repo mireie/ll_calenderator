@@ -11,6 +11,7 @@ module Parsers
         description: parse_description,
         days: parse_days,
         start_date: parse_start_date,
+        end_date: parse_end_date,
       }
     end
 
@@ -47,6 +48,30 @@ module Parsers
 
     def parse_start_date
       extract_date(@doc.css(".start").text.strip)
+    end
+
+    def parse_end_date
+      dates = parse_dates
+      return nil if dates.blank?
+
+      start_date = parse_start_date
+      return nil unless start_date
+
+      dates.map! do |date|
+        month, day = date.split(".").map(&:strip)
+        year = start_date.year
+        # If the date would be before the start date, it must be in the next year
+        year += 1 if month.to_i < start_date.month || (month.to_i == start_date.month && day.to_i < start_date.day)
+        Date.new(year, month.to_i, day.to_i)
+      end.max
+    end
+
+    def parse_dates
+      @doc.css("li").find { |li| li.text.include?("Dates:") }&.text
+        &.split("Dates:")&.last
+        &.strip
+        &.split(",")
+        &.map(&:strip)
     end
 
     ### Helper methods

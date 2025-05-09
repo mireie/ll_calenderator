@@ -1,18 +1,22 @@
 <%= turbo_stream_from "leagues" %>
 <main class="container">
   <div class="header">
-    <h1>Leagues</h1>
+    <h1>Active and Upcoming Leagues</h1>
   </div>
   <% if @leagues.none? %>
     <%= render "empty_state" %>
   <% end %>
   <% if @active_leagues.any? %>
-    <h2 class="header">Active Leagues</h2>
-    <ul>
-      <% @active_leagues.each do |league| %>
-        <%= render league %>
+    <%= turbo_frame_tag "leagues", class: "leagues" do %>
+      <% @leagues_by_sport.each do |sport, leagues|%>
+        <h2 class="leagues__sport"><%= sport %></h2>
+        <ul>
+          <% leagues.each do |league| %>
+            <li><%= link_to league.title, league_path(league), target: "_top" %></li>
+          <% end %>
+        </ul>
       <% end %>
-    </ul>
+    <% end %>
   <% else %>
     <p>There are no upcoming games for any active leagues.</p>
   <% end %>

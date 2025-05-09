@@ -9,9 +9,10 @@ module DataServices
 
     def parse(schedule_url)
       document = @fetcher.fetch_html(schedule_url)
+      @league = league_from_url(schedule_url)
       parsed_game_data = @parser.parse(document).flatten.compact
       parsed_game_data.each do |game_data|
-        game = Game.find_or_initialize_by(external_id: game_data[:external_id], league: league_from_url(schedule_url))
+        game = Game.find_or_initialize_by(external_id: game_data[:external_id], league: @league)
         if game.persisted?
           update_game(game, game_data)
           next
@@ -33,8 +34,7 @@ module DataServices
 
     private
 
-    def create_game(game, game_data, schedule_url)
-      game.league = league_from_url(schedule_url)
+    def create_game(game, game_data)
       game.assign_attributes(game_attributes(game_data))
       game.location = parse_location(game_data[:field])
       assign_game_teams(game, game_data[:game_teams]) if game.save!
@@ -55,9 +55,9 @@ module DataServices
     end
 
     def assign_game_teams(game, game_teams_data)
-      assign_home_team(game, Team.find_by(external_id: game_teams_data[:home_team_id]))
-      assign_away_team(game, Team.find_by(external_id: game_teams_data[:away_team_id]))
-      assign_officiating_team(game, Team.find_by(name: game_teams_data[:officiating_team_name]))
+      assign_home_team(game, Team.find_by(external_id: game_teams_data[:home_team_id], league: @league))
+      assign_away_team(game, Team.find_by(external_id: game_teams_data[:away_team_id], league: @league))
+      assign_officiating_team(game, Team.find_by(name: game_teams_data[:officiating_team_name], league: @league))
       assign_teams_from_content_title(game, game_teams_data[:content_title])
     end
 
@@ -87,7 +87,7 @@ module DataServices
       role = :field_teardown if role == :teardown
       role = :field_setup if role == :setup
       team_name = content_title.split(":", 2).last.strip
-      team = Team.find_by(name: team_name)
+      team = Team.find_by(name: team_name, league: @league)
       return if team.blank?
 
       GameTeam.find_or_create_by(game:, team:, role:)
