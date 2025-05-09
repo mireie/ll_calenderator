@@ -17,7 +17,7 @@ module DataServices
           update_game(game, game_data)
           next
         end
-        create_game(game, game_data, schedule_url)
+        create_game(game, game_data)
       end
     end
 
