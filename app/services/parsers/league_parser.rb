@@ -31,7 +31,12 @@ module Parsers
     end
 
     def parse_title
-      @doc.css("h1").text
+      h1_element = @doc.css("h1").first
+      return "" unless h1_element
+
+      # Remove all non-text elements (tags) and extract only text content
+      h1_element.css("*").remove
+      h1_element.text.strip
     end
 
     def parse_sport
