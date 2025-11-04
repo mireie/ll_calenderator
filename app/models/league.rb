@@ -11,7 +11,7 @@ class League < ApplicationRecord
   broadcasts_to ->(league) { "leagues" }, inserts_by: :prepend
 
   scope :active, lambda {
-    with_future_games.presence || where(start_date: 3.months.ago..)
+    where(start_date: 3.months.ago..)
   }
   scope :upcoming, -> { where("start_date > ?", Time.zone.now) }
 
