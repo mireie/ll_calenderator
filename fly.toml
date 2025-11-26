@@ -6,7 +6,7 @@
 app = 'll-calendarator'
 primary_region = 'sjc'
 console_command = '/rails/bin/rails console'
-swap_size = 512
+swap_size_mb = 512
 
 [build]
 
