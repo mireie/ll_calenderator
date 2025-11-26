@@ -13,12 +13,12 @@ WORKDIR /rails
 ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test" \
-    RAILS_ENV="production"
+    RAILS_ENV="production" \
+    RUBY_YJIT_ENABLE=1
 
 # Update gems and bundler
 RUN gem update --system --no-document && \
     gem install -N bundler
-
 
 # Throw-away build stage to reduce size of final image
 FROM base as build

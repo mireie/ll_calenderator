@@ -6,6 +6,7 @@
 app = 'll-calendarator'
 primary_region = 'sea'
 console_command = '/rails/bin/rails console'
+swap_size = 512
 
 [build]
 
