@@ -10,11 +10,24 @@
     <%= turbo_frame_tag "leagues", class: "leagues" do %>
       <% @leagues_by_sport.each do |sport, leagues|%>
         <h2 class="leagues__sport"><%= sport %></h2>
-        <ul>
-          <% leagues.each do |league| %>
-            <li><%= link_to league.title, league_path(league), target: "_top" %></li>
-          <% end %>
-        </ul>
+        <div class="leagues-table-wrapper">
+          <table class="leagues-table">
+            <thead>
+              <tr>
+                <th>League</th>
+                <th>Start Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% leagues.each do |league| %>
+                <tr>
+                  <td data-label="League"><%= link_to league.title, league_path(league), target: "_top" %></td>
+                  <td data-label="Start Date"><%= league.start_date.strftime('%m/%d/%Y') %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       <% end %>
     <% end %>
   <% else %>

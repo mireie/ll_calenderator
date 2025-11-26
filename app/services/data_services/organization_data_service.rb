@@ -44,6 +44,10 @@ module DataServices
     def process_leagues
       league_data = fetch_league_data
       league_data.each { |league_attributes| create_or_update_league(league_attributes) }
+
+      # TODO: handle current leagues
+      current_leagues = @parser.parse_leagues(@fetcher.fetch_html("#{@organization.leagues_url}?v=current"))
+      current_leagues.each { |league_attributes| create_or_update_league(league_attributes) }
     end
 
     def fetch_league_data
