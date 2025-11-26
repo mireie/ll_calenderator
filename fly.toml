@@ -4,7 +4,7 @@
 #
 
 app = 'll-calendarator'
-primary_region = 'sea'
+primary_region = 'sjc'
 console_command = '/rails/bin/rails console'
 swap_size = 512
 
