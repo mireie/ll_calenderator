@@ -1,38 +1,5 @@
-<div class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
+<main class="container">
   <turbo-frame id="refresh_all">
-    <button 
-      class="btn btn-primary"
-      data-url="<%= admin_refresh_all_path %>"
-      style="height: 50vh; width: 50vw; font-size: 2rem;"
-    >
-      Refresh Everything
-    </button>
+    <%= render "admin/refresh_all" %>
   </turbo-frame>
-</div>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('button[data-url]').forEach(function(button) {
-      button.addEventListener('click', function() {
-  var url = this.dataset.url;
-
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest',
-      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-    },
-    credentials: 'same-origin'
-  }).then(function(response) {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.text();
-  }).then(function(data) {
-    document.querySelector('#' + button.parentElement.id).outerHTML = data;
-  }).catch(function(error) {
-    console.error('There has been a problem with your fetch operation:', error);
-  });
-      });
-    });
-  });
-</script>
+</main>

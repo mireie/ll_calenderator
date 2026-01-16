@@ -9,8 +9,9 @@
   align-items: center;
   gap: var(--space-s);
 
-  max-width: 100%;
+  max-width: 90vw;
   width: max-content;
+  min-width: 200px;
   padding: 0 var(--space-m);
 
   &__message {
@@ -20,5 +21,8 @@
     background-color: var(--color-dark);
     animation: appear-then-fade 4s both;
     border-radius: 999px;
+    max-width: 500px;
+    word-break: break-word;
+    text-align: center;
   }
 }

@@ -6,8 +6,19 @@ class AdminController < ApplicationController
   def index; end
 
   def refresh_all
-    SyncAllOrganizationsJob.perform_later
-    redirect_to admin_path, notice: I18n.t("admin.refresh_all.success")
+    NightlySyncJob.perform_later
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = I18n.t("admin.refresh_all.success")
+        render turbo_stream: [
+          turbo_stream.replace("flash", partial: "layouts/flash"),
+          turbo_stream.replace("refresh_all", partial: "admin/refresh_all")
+        ]
+      end
+      format.html do
+        redirect_to admin_path, notice: I18n.t("admin.refresh_all.success")
+      end
+    end
   end
 
   private

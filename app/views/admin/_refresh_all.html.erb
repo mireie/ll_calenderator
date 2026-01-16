@@ -1,0 +1,9 @@
+<%= form_with url: admin_refresh_all_path, method: :post, data: { turbo_frame: "refresh_all" } do %>
+  <button 
+    class="btn btn--primary"
+    style="height: 50vh; width: 50vw; font-size: 2rem; display: flex; align-items: center; justify-content: center;"
+    type="submit"
+  >
+    Refresh Everything
+  </button>
+<% end %>

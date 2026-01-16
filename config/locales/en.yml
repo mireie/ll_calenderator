@@ -30,6 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  admin:
+    refresh_all:
+      success: "Jobs have been scheduled to refresh data for all organizations."
   games:
     create:
       success: "Game was successfully created."
