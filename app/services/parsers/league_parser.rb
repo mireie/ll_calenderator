@@ -27,7 +27,10 @@ module Parsers
     private
 
     def parse_external_id
-      @doc.css(".league-links li a").first.attributes["href"].value.split("/").last
+      link = @doc.at_css(".league-links li a")
+      return nil unless link && link["href"]
+
+      link["href"].split("/").last
     end
 
     def parse_title
