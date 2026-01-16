@@ -38,6 +38,9 @@ module DataServices
     end
 
     def handle_okc
+      # TODO: Fix this special case for OKC
+      return
+
       DataServices::LeagueDataService.new.create_league(@organization.leagues_url)
     end
 
