@@ -45,7 +45,7 @@ class LeaguesController < ApplicationController
         format.turbo_stream { flash.now[:notice] = t(".success") }
       end
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -57,7 +57,7 @@ class LeaguesController < ApplicationController
         format.turbo_stream { flash.now[:notice] = t(".success") }
       end
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -72,7 +72,7 @@ class LeaguesController < ApplicationController
   end
 
   def teams
-    @league = League.find(params[:id])
+    @league = League.find(params.expect(:id))
     @teams = @league.teams
     render partial: "leagues/teams", locals: { teams: @teams, league: @league }
   end
@@ -102,7 +102,7 @@ class LeaguesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_league
-    @league = League.find(params[:id])
+    @league = League.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

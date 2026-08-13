@@ -29,7 +29,7 @@ module DataServices
     def find_organization_by_league_url(league_url)
       league_url = "https://#{league_url}" unless league_url.start_with?("http")
       organizations = Organization.where("base_url LIKE ?", "%#{URI.parse(league_url).host}%")
-      organizations.first if organizations.present? && organizations.count == 1
+      organizations.first if organizations.present? && organizations.one?
     end
   end
 end

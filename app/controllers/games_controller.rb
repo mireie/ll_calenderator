@@ -29,8 +29,8 @@ class GamesController < ApplicationController
         format.html { redirect_to game_url(@game), notice: t(".success") }
         format.json { render :show, status: :created, location: @game }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @game.errors, status: :unprocessable_content }
       end
     end
   end
@@ -42,8 +42,8 @@ class GamesController < ApplicationController
         format.html { redirect_to game_url(@game), notice: t(".success") }
         format.json { render :show, status: :ok, location: @game }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @game.errors, status: :unprocessable_content }
       end
     end
   end
@@ -62,7 +62,7 @@ class GamesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_game
-    @game = Game.find(params[:id])
+    @game = Game.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

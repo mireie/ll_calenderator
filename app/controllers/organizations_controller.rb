@@ -32,8 +32,8 @@ class OrganizationsController < ApplicationController
         format.html { redirect_to organization_url(@organization), notice: t(".success") }
         format.json { render :show, status: :created, location: @organization }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @organization.errors, status: :unprocessable_content }
       end
     end
   end
@@ -45,8 +45,8 @@ class OrganizationsController < ApplicationController
         format.html { redirect_to organization_url(@organization), notice: t(".success") }
         format.json { render :show, status: :ok, location: @organization }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @organization.errors, status: :unprocessable_content }
       end
     end
   end
@@ -65,7 +65,7 @@ class OrganizationsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_organization
-    @organization = Organization.find(params[:id])
+    @organization = Organization.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

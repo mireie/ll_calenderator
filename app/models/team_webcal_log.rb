@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeamWebcalLog < ApplicationRecord
   belongs_to :team
 

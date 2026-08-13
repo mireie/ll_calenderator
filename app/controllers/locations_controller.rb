@@ -29,8 +29,8 @@ class LocationsController < ApplicationController
         format.html { redirect_to location_url(@location), notice: t(".success") }
         format.json { render :show, status: :created, location: @location }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @location.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @location.errors, status: :unprocessable_content }
       end
     end
   end
@@ -42,8 +42,8 @@ class LocationsController < ApplicationController
         format.html { redirect_to location_url(@location), notice: t(".success") }
         format.json { render :show, status: :ok, location: @location }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @location.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @location.errors, status: :unprocessable_content }
       end
     end
   end
@@ -62,7 +62,7 @@ class LocationsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_location
-    @location = Location.find(params[:id])
+    @location = Location.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

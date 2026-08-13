@@ -10,7 +10,7 @@ class Game < ApplicationRecord
 
   DEFAULT_DURATION = 60
 
-  enum :status, %i[scheduled in_progress completed removed]
+  enum :status, { scheduled: 0, in_progress: 1, completed: 2, removed: 3 }
 
   default_scope { where.not(status: :removed) }
 

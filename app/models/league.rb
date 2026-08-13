@@ -8,7 +8,7 @@ class League < ApplicationRecord
 
   require "icalendar/tzinfo"
 
-  broadcasts_to ->(league) { "leagues" }, inserts_by: :prepend
+  broadcasts_to ->(_league) { "leagues" }, inserts_by: :prepend
 
   scope :active, lambda {
     where(start_date: 3.months.ago..)
@@ -43,7 +43,7 @@ class League < ApplicationRecord
   end
 
   def details_url
-    url + "/details"
+    "#{url}/details"
   end
 
   def schedule_url

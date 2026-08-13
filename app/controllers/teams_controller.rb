@@ -30,8 +30,8 @@ class TeamsController < ApplicationController
         format.html { redirect_to team_url(@team), notice: t(".success") }
         format.json { render :show, status: :created, location: @team }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @team.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @team.errors, status: :unprocessable_content }
       end
     end
   end
@@ -43,8 +43,8 @@ class TeamsController < ApplicationController
         format.html { redirect_to team_url(@team), notice: t(".success") }
         format.json { render :show, status: :ok, location: @team }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @team.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @team.errors, status: :unprocessable_content }
       end
     end
   end
@@ -77,7 +77,7 @@ class TeamsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_team
-    @team = Team.find(params[:id])
+    @team = Team.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.
