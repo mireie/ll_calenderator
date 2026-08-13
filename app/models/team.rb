@@ -6,6 +6,7 @@ class Team < ApplicationRecord
   has_one :organization, through: :league
   has_many :game_teams, dependent: :destroy
   has_many :games, through: :game_teams
+  has_many :team_webcal_logs, dependent: :destroy
 
   scope :ordered, -> { order(:name) }
 

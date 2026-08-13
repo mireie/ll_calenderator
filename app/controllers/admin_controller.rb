@@ -3,7 +3,11 @@
 class AdminController < ApplicationController
   before_action :authenticate_admin
 
-  def index; end
+  def index
+    @team_webcal_stats = TeamWebcalLog.hits_by_team
+    @daily_webcal_hits = TeamWebcalLog.daily_hits
+    @total_webcal_hits = TeamWebcalLog.count
+  end
 
   def refresh_all
     NightlySyncJob.perform_later
