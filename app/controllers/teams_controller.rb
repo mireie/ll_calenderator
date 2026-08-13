@@ -60,6 +60,11 @@ class TeamsController < ApplicationController
   end
 
   def webcal
+    @team.team_webcal_logs.create!(
+      ip_address: request.ip,
+      user_agent: request.user_agent
+    )
+
     send_data(
       @team.games_to_ical,
       filename: "#{@team.external_id}.ics",
