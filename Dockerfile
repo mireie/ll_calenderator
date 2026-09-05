@@ -2,7 +2,7 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.2.3
-FROM quay.io/evl.ms/fullstaq-ruby:${RUBY_VERSION}-jemalloc-slim as base
+FROM ruby:${RUBY_VERSION}-slim-bookworm as base
 
 LABEL fly_launch_runtime="rails"
 
@@ -24,7 +24,8 @@ RUN gem update --system --no-document && \
 FROM base as build
 
 # Install packages needed to build gems and node modules
-RUN apt-get update -qq && \
+RUN rm -rf /var/lib/apt/lists/* && \
+    apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl libpq-dev libyaml-dev node-gyp pkg-config python-is-python3
 
 # Install JavaScript dependencies
@@ -61,7 +62,8 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 FROM base
 
 # Install packages needed for deployment
-RUN apt-get update -qq && \
+RUN rm -rf /var/lib/apt/lists/* && \
+    apt-get update -qq && \
     apt-get install --no-install-recommends -y curl postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
