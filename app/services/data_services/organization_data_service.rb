@@ -25,24 +25,10 @@ module DataServices
       @organization ||= organization
       return unless @organization
 
-      # TODO: Handle this without special case for OKC
-      handle_okc and return if okc?
-
       process_leagues
     end
 
     private
-
-    def okc?
-      @organization.base_url == "oregonkickballclub.leaguelab.com"
-    end
-
-    def handle_okc
-      # TODO: Fix this special case for OKC
-      return
-
-      DataServices::LeagueDataService.new.create_league(@organization.leagues_url)
-    end
 
     def process_leagues
       league_data = fetch_league_data
